@@ -28,6 +28,7 @@ import ilog.cplex.IloCplex;
 public class DataGraph {
 	private static final String NEWLINE = System.getProperty("line.separator");
 
+	public int count = 0;
 	public Setting setting;
 
 	public ArrayList<Node> nodes;
