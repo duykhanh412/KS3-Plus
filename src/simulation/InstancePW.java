@@ -49,27 +49,6 @@ public class InstancePW {
 		// q.printKeywords();
 	}
 
-	// public InstanceResult run(){
-	// //try to answer a normal query
-	// if(Config.RUNNING_KS3_NORMAL) {
-	// if(this.dg.answerNormalPW(this.q) != null) {
-	// this.result.mashupID = this.q.mashupID;
-	// this.result.numKeywordsInMashup = this.q.numKeywordsInMashup;
-	//
-	// this.result.isSuccessfulKS3Normal = true;
-	// this.result.timeConsumptionSuccessfulKS3Normal =
-	// q.timeConsumptionSuccessfulKS3Normal;
-	// this.result.objectiveValueKS3Normal += q.objectiveValueKS3Normal;
-	// this.result.isSuccessfulIndividualNormal =
-	// q.isSuccessfulIndividualNormal;
-	//
-	// this.result.newSolution = q.newSolution;
-	// } else{
-	// this.result.isSuccessfulKS3Normal = false;
-	// }
-	// }
-	// return this.result;
-	// }
 	public InstanceResult runOldAlgorithm(int mashupID) {
 		// try to answer a normal query
 		// ArrayList<String> keywords = this.dg.hm_mashups_apis.get(mashupID);

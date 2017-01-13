@@ -53,7 +53,11 @@ public class DataGraph {
 	public HashMap<Node, ArrayList<Node>> adjIndex; // save the neighbour nodes
 													// of each node
 
-	public HashMap<Node, ArrayList<Node>> undirectedAdjIndex; // save the neighbour nodes of each node (Undirected)
+	public HashMap<Node, ArrayList<Node>> undirectedAdjIndex; // save the
+																// neighbour
+																// nodes of each
+																// node
+																// (Undirected)
 
 	public String[][] all_mashup_api = new String[13185][3]; // [mashup_id][mashup_name][api_name]
 	public HashMap<Integer, ArrayList<String>> hm_mashups_apis = new HashMap<Integer, ArrayList<String>>();
@@ -141,7 +145,7 @@ public class DataGraph {
 
 			// intialise ArrayList in adjIndex for node created
 			this.adjIndex.put(node, new ArrayList<Node>());
-			
+
 			this.undirectedAdjIndex.put(node, new ArrayList<Node>());
 
 			// insert the keyword into the set of keywords in graph
@@ -174,7 +178,7 @@ public class DataGraph {
 
 				// add node to adjIndex
 				this.adjIndex.get(edge.fromNode).add(edge.toNode);
-				
+
 				// add node to undirectedAdjIndex
 				this.undirectedAdjIndex.get(edge.fromNode).add(edge.toNode);
 				this.undirectedAdjIndex.get(edge.toNode).add(edge.fromNode);
@@ -189,8 +193,7 @@ public class DataGraph {
 				do {
 					nodeIndex[0] = r.nextInt(this.nodes.size());
 					nodeIndex[1] = r.nextInt(this.nodes.size());
-				} while (nodeIndex[0] == node.ID || nodeIndex[1] == node.ID
-						|| nodeIndex[0] == nodeIndex[1]);
+				} while (nodeIndex[0] == node.ID || nodeIndex[1] == node.ID || nodeIndex[0] == nodeIndex[1]);
 
 				edge = new Edge();
 				edge.ID = edgeIDCounter++;
@@ -211,11 +214,10 @@ public class DataGraph {
 
 				// add node to adjIndex
 				this.adjIndex.get(edge.fromNode).add(edge.toNode);
-				
+
 				// add node to undirectedAdjIndex
 				this.undirectedAdjIndex.get(edge.fromNode).add(edge.toNode);
 				this.undirectedAdjIndex.get(edge.toNode).add(edge.fromNode);
-
 
 				// generate the second added edge
 				edge = new Edge();
@@ -237,7 +239,7 @@ public class DataGraph {
 
 				// add node to adjIndex
 				this.adjIndex.get(edge.fromNode).add(edge.toNode);
-				
+
 				// add node to undirectedAdjIndex
 				this.undirectedAdjIndex.get(edge.fromNode).add(edge.toNode);
 				this.undirectedAdjIndex.get(edge.toNode).add(edge.fromNode);
@@ -246,25 +248,25 @@ public class DataGraph {
 
 		// link multiple apis to corresponding mashups based on
 		// all_mashup_api[][]
-//		ArrayList<String> apiList;
-//		for (int i = 0; i < all_mashup_api.length; ++i) {
-//			apiList = hm_mashups_apis.get(Integer
-//					.parseInt(all_mashup_api[i][0]));
-//			if (apiList != null) {
-//				apiList.add(all_mashup_api[i][2]);
-//				// System.out.println("Adding " + all_mashup_api[i][2] +
-//				// " to API #" + all_mashup_api[i][0]);
-//				hm_mashups_apis.put(Integer.parseInt(all_mashup_api[i][0]),
-//						apiList);
-//			} else {
-//				apiList = new ArrayList<String>();
-//				apiList.add(all_mashup_api[i][2]);
-//				// System.out.println("Adding " + all_mashup_api[i][2] +
-//				// " to API #" + all_mashup_api[i][0]);
-//				hm_mashups_apis.put(Integer.parseInt(all_mashup_api[i][0]),
-//						apiList);
-//			}
-//		}
+		// ArrayList<String> apiList;
+		// for (int i = 0; i < all_mashup_api.length; ++i) {
+		// apiList = hm_mashups_apis.get(Integer
+		// .parseInt(all_mashup_api[i][0]));
+		// if (apiList != null) {
+		// apiList.add(all_mashup_api[i][2]);
+		// // System.out.println("Adding " + all_mashup_api[i][2] +
+		// // " to API #" + all_mashup_api[i][0]);
+		// hm_mashups_apis.put(Integer.parseInt(all_mashup_api[i][0]),
+		// apiList);
+		// } else {
+		// apiList = new ArrayList<String>();
+		// apiList.add(all_mashup_api[i][2]);
+		// // System.out.println("Adding " + all_mashup_api[i][2] +
+		// // " to API #" + all_mashup_api[i][0]);
+		// hm_mashups_apis.put(Integer.parseInt(all_mashup_api[i][0]),
+		// apiList);
+		// }
+		// }
 	}
 
 	/*
@@ -356,21 +358,18 @@ public class DataGraph {
 		// HashMap<Integer, ArrayList<String>>();
 		ArrayList<String> apiList;
 		for (int i = 0; i < all_mashup_api.length; ++i) {
-			apiList = hm_mashups_apis.get(Integer
-					.parseInt(all_mashup_api[i][0]));
+			apiList = hm_mashups_apis.get(Integer.parseInt(all_mashup_api[i][0]));
 			if (apiList != null) {
 				apiList.add(all_mashup_api[i][2]);
 				// System.out.println("Adding " + all_mashup_api[i][2] +
 				// " to API #" + all_mashup_api[i][0]);
-				hm_mashups_apis.put(Integer.parseInt(all_mashup_api[i][0]),
-						apiList);
+				hm_mashups_apis.put(Integer.parseInt(all_mashup_api[i][0]), apiList);
 			} else {
 				apiList = new ArrayList<String>();
 				apiList.add(all_mashup_api[i][2]);
 				// System.out.println("Adding " + all_mashup_api[i][2] +
 				// " to API #" + all_mashup_api[i][0]);
-				hm_mashups_apis.put(Integer.parseInt(all_mashup_api[i][0]),
-						apiList);
+				hm_mashups_apis.put(Integer.parseInt(all_mashup_api[i][0]), apiList);
 			}
 		}
 		// output links between mashups and apis in hm_mashups_apis
@@ -407,8 +406,7 @@ public class DataGraph {
 
 		// extract all unique apis from hm_mashups_apis
 		uniqueAPIs = new HashMap<String, Integer>();
-		Set<HashMap.Entry<Integer, ArrayList<String>>> mashup_APIs_Set = hm_mashups_apis
-				.entrySet();
+		Set<HashMap.Entry<Integer, ArrayList<String>>> mashup_APIs_Set = hm_mashups_apis.entrySet();
 		Integer apiIndex = 0;
 		for (Entry<Integer, ArrayList<String>> entry : mashup_APIs_Set) {
 			for (int i = 0; i < entry.getValue().size(); ++i) {
@@ -463,8 +461,7 @@ public class DataGraph {
 		for (Entry<Integer, ArrayList<String>> entry : mashup_APIs_Set) {
 			if (entry.getValue().size() > 1) { // only process mashups that use
 												// more than 1 API
-				apiArray = entry.getValue().toArray(
-						new String[entry.getValue().size()]);
+				apiArray = entry.getValue().toArray(new String[entry.getValue().size()]);
 				// for(int i=0; i<apiArray.length; ++i)
 				// {System.out.print(apiArray[i] + ", ");}
 				// System.out.println("");
@@ -486,12 +483,10 @@ public class DataGraph {
 						API_API_Integers.put(service1Index, al);
 						// System.out.println(service1Index);
 					} else {
-						if (API_API_Integers.get(service1Index).contains(
-								service2Index)) {
+						if (API_API_Integers.get(service1Index).contains(service2Index)) {
 
 						} else {
-							API_API_Integers.get(service1Index).add(
-									service2Index);
+							API_API_Integers.get(service1Index).add(service2Index);
 						}
 					}
 
@@ -603,8 +598,7 @@ public class DataGraph {
 		Edge edge;
 		int edgeIDCounter = 0;
 		// for(int i=0; i<numNodes; ++i) {
-		for (Entry<Integer, ArrayList<Integer>> entry : API_API_Integers
-				.entrySet()) {
+		for (Entry<Integer, ArrayList<Integer>> entry : API_API_Integers.entrySet()) {
 			for (int j = 0; j < entry.getValue().size(); ++j) {
 				edge = new Edge();
 				edge.ID = edgeIDCounter++;
@@ -620,13 +614,11 @@ public class DataGraph {
 
 				// add to and from nodes to edge index as created
 				this.nodeIndex.get(edge).add(nodes.get(entry.getKey()));
-				this.nodeIndex.get(edge)
-						.add(nodes.get(entry.getValue().get(j)));
+				this.nodeIndex.get(edge).add(nodes.get(entry.getValue().get(j)));
 
 				// add edge to node index as created
 				this.edgeIndex.get(nodes.get(entry.getKey())).add(edge);
-				this.edgeIndex.get(nodes.get(entry.getValue().get(j)))
-						.add(edge);
+				this.edgeIndex.get(nodes.get(entry.getValue().get(j))).add(edge);
 
 				// add node to adjIndex
 				this.adjIndex.get(edge.fromNode).add(edge.toNode);
@@ -726,16 +718,19 @@ public class DataGraph {
 					StdOut.println("This node does not have a neighbour!");
 				} else {
 					int t = r.nextInt(size);
-					StdOut.println("There is a number of "
-							+ this.adjIndex.get(currentNode).size()
+					StdOut.println("There is a number of " + this.adjIndex.get(currentNode).size()
 							+ " adjacent nodes of node " + currentNode.ID + ".");
 					Node neighbour = neighbours.get(t);
-					if (this.adjIndex.get(neighbour).size() != 0
-							&& neighbour != previousNode) { // to ensure the
-															// selected
-															// neighbour has at
-															// least one
-															// neighbour
+					if (this.adjIndex.get(neighbour).size() != 0 && neighbour != previousNode) { // to
+																									// ensure
+																									// the
+																									// selected
+																									// neighbour
+																									// has
+																									// at
+																									// least
+																									// one
+																									// neighbour
 						previousNode = currentNode;
 						currentNode = this.adjIndex.get(currentNode).get(t);
 					}
@@ -865,8 +860,7 @@ public class DataGraph {
 					q.isSuccessfulIndividualNormal = true;
 				}
 
-				System.out.println("Normal search solution status = "
-						+ model.getStatus());
+				System.out.println("Normal search solution status = " + model.getStatus());
 				StdOut.print("Objective value: " + model.getObjValue());
 
 				// calculate the number of nodes selected
@@ -912,8 +906,7 @@ public class DataGraph {
 				q.timeConsumptionFailedKS3Normal = (endTimeNormal - startTimeNormal) / 1000000;
 
 				this.numberOfServicesLight = -1.0;
-				System.out.println("Normal search solution status = "
-						+ model.getStatus());
+				System.out.println("Normal search solution status = " + model.getStatus());
 				model.exportModel("Normal_result.lp");
 			}
 
@@ -1029,8 +1022,7 @@ public class DataGraph {
 			for (int i = 0; i < nodes.size(); ++i) {
 				expr.addTerm(1, x[i]);
 			}
-			model.addLe(expr, (this.setting.numKeywords)
-					* this.setting.keywordDistance * 2);
+			model.addLe(expr, (this.setting.numKeywords) * this.setting.keywordDistance * 2);
 
 			// objective function: minimise the number of services in solution
 			IloLinearNumExpr obj = model.linearNumExpr();
@@ -1054,8 +1046,7 @@ public class DataGraph {
 					q.isSuccessfulIndividualConstraint = true;
 				}
 
-				System.out.println("Constraint search solution status = "
-						+ model.getStatus());
+				System.out.println("Constraint search solution status = " + model.getStatus());
 				StdOut.print("Objective value: " + model.getObjValue());
 
 				// calculate the number of nodes selected
@@ -1101,8 +1092,7 @@ public class DataGraph {
 				q.timeConsumptionFailedKS3Constraint = (endTimeConstraint - startTimeConstraint) / 1000000;
 
 				this.numberOfServicesLight = -1.0;
-				System.out.println("Constraint search solution status = "
-						+ model.getStatus());
+				System.out.println("Constraint search solution status = " + model.getStatus());
 				model.exportModel("Constraint_result.lp");
 			}
 
@@ -1218,8 +1208,7 @@ public class DataGraph {
 			for (int i = 0; i < nodes.size(); ++i) {
 				expr.addTerm(1, x[i]);
 			}
-			model.addLe(expr, (this.setting.numKeywords)
-					* this.setting.keywordDistance * 2);
+			model.addLe(expr, (this.setting.numKeywords) * this.setting.keywordDistance * 2);
 
 			// objective function: minimise the first qos dimension
 			IloLinearNumExpr obj = model.linearNumExpr();
@@ -1235,8 +1224,7 @@ public class DataGraph {
 				q.timeConsumptionSuccessfulKS3Optimal = (endTimeOptimal - startTimeOptimal) / 1000000;
 				q.objectiveValueKS3Optimal = model.getObjValue();
 
-				System.out.println("Optimal search solution status = "
-						+ model.getStatus());
+				System.out.println("Optimal search solution status = " + model.getStatus());
 				StdOut.print("Objective value: " + model.getObjValue());
 
 				// calculate the number of nodes selected
@@ -1289,8 +1277,7 @@ public class DataGraph {
 				q.timeConsumptionFailedKS3Optimal = (endTimeOptimal - startTimeOptimal) / 1000000;
 
 				this.numberOfServicesLight = -1.0;
-				System.out.println("Optimal search solution status = "
-						+ model.getStatus());
+				System.out.println("Optimal search solution status = " + model.getStatus());
 				model.exportModel("optimal_result.lp");
 			}
 
@@ -1420,8 +1407,7 @@ public class DataGraph {
 					q.isSuccessfulIndividualNormal = true;
 				}
 
-				System.out.println("Normal search solution status = "
-						+ model.getStatus());
+				System.out.println("Normal search solution status = " + model.getStatus());
 				StdOut.print("Objective value: " + model.getObjValue());
 
 				// calculate the number of nodes selected
@@ -1475,8 +1461,7 @@ public class DataGraph {
 				q.timeConsumptionFailedKS3Normal = (endTimeNormal - startTimeNormal) / 1000000;
 
 				this.numberOfServicesLight = -1.0;
-				System.out.println("Normal search solution status = "
-						+ model.getStatus());
+				System.out.println("Normal search solution status = " + model.getStatus());
 				model.exportModel("Normal_result.lp");
 			}
 		} catch (IloException e) {
@@ -1503,8 +1488,7 @@ public class DataGraph {
 	// output the keyword of each node
 	public void printKeywords() {
 		StringBuilder s = new StringBuilder();
-		s.append(nodes.size() + " vertices, " + edges.size() + " edges "
-				+ NEWLINE);
+		s.append(nodes.size() + " vertices, " + edges.size() + " edges " + NEWLINE);
 		for (int v = 0; v < nodes.size(); v++) {
 			s.append(String.format("%d: ", v));
 			s.append(nodes.get(v).kw);
@@ -1521,8 +1505,7 @@ public class DataGraph {
 		ArrayList<Node> al;
 		Node node;
 		while (it.hasNext()) {
-			Map.Entry<String, ArrayList<Node>> pair = (Map.Entry<String, ArrayList<Node>>) it
-					.next();
+			Map.Entry<String, ArrayList<Node>> pair = (Map.Entry<String, ArrayList<Node>>) it.next();
 			StdOut.print(pair.getKey() + ": ");
 			al = pair.getValue();
 			for (int i = 0; i < al.size(); ++i) {
@@ -1541,8 +1524,7 @@ public class DataGraph {
 		ArrayList<Node> al;
 		Node node;
 		while (it.hasNext()) {
-			Map.Entry<Edge, ArrayList<Node>> pair = (Map.Entry<Edge, ArrayList<Node>>) it
-					.next();
+			Map.Entry<Edge, ArrayList<Node>> pair = (Map.Entry<Edge, ArrayList<Node>>) it.next();
 			StdOut.print("Edge " + pair.getKey().ID + ": ");
 			al = pair.getValue();
 			for (int i = 0; i < al.size(); ++i) {
@@ -1561,8 +1543,7 @@ public class DataGraph {
 		ArrayList<Edge> al;
 		Edge edge;
 		while (it.hasNext()) {
-			Map.Entry<Node, ArrayList<Edge>> pair = (Map.Entry<Node, ArrayList<Edge>>) it
-					.next();
+			Map.Entry<Node, ArrayList<Edge>> pair = (Map.Entry<Node, ArrayList<Edge>>) it.next();
 			StdOut.print("Node " + pair.getKey().ID + ": ");
 			al = pair.getValue();
 			for (int i = 0; i < al.size(); ++i) {
@@ -1576,13 +1557,11 @@ public class DataGraph {
 	// output the adjacent nodes of each node
 	public String toString() {
 		StringBuilder s = new StringBuilder();
-		s.append(nodes.size() + " vertices, " + edges.size() + " edges "
-				+ NEWLINE);
+		s.append(nodes.size() + " vertices, " + edges.size() + " edges " + NEWLINE);
 		for (int v = 0; v < nodes.size(); v++) {
 			s.append(String.format("%d: ", v));
 			for (int i = 0; i < this.adjIndex.get(nodes.get(v)).size(); ++i) {
-				s.append(String.format("%d ", this.adjIndex.get(nodes.get(v))
-						.get(i).ID));
+				s.append(String.format("%d ", this.adjIndex.get(nodes.get(v)).get(i).ID));
 			}
 			s.append(NEWLINE);
 		}
@@ -1594,8 +1573,7 @@ public class DataGraph {
 		StdOut.println();
 		StdOut.println("Printing Keywords of Nodes:");
 		for (int i = 0; i < this.nodes.size(); ++i) {
-			StdOut.println("Node " + this.nodes.get(i).ID + ": "
-					+ this.nodes.get(i).kw);
+			StdOut.println("Node " + this.nodes.get(i).ID + ": " + this.nodes.get(i).kw);
 		}
 	}
 
@@ -1611,8 +1589,7 @@ public class DataGraph {
 	}
 
 	public void printMashupsWithAPIs() {
-		Set<HashMap.Entry<Integer, ArrayList<String>>> entrySet = hm_mashups_apis
-				.entrySet();
+		Set<HashMap.Entry<Integer, ArrayList<String>>> entrySet = hm_mashups_apis.entrySet();
 		for (Entry<Integer, ArrayList<String>> entry : entrySet) {
 			System.out.print("Mashup #" + entry.getKey() + ": ");
 			for (int i = 0; i < entry.getValue().size(); ++i) {
