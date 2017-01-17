@@ -8,7 +8,7 @@ import elements.DataGraph;
 import queries.NormalQuery;
 
 public class InstancePW {
-	
+
 	DataGraph dg;
 	QueryPW q;
 	Setting setting;
@@ -52,15 +52,15 @@ public class InstancePW {
 	public InstanceResult runOldAlgorithm(int mashupID) {
 		// try to answer a normal query
 		// ArrayList<String> keywords = this.dg.hm_mashups_apis.get(mashupID);
-		// if (keywords.size() == 9 || keywords.size() == 7 || keywords.size()
-		// == 6 || keywords.size() == 5) {
+		ArrayList<String> keywords = this.q.keywords;
+		// if (this.q.numKeywordsInMashup >= 2) {
 		if (Config.RUNNING_KS3_NORMAL) {
 			if (this.dg.answerNormalPW(this.q) != null) {
 				this.oldResult.mashupID = this.q.mashupID;
 				this.oldResult.numKeywordsInMashup = this.q.numKeywordsInMashup;
-//				if (mashupID == 7) {
-//					System.out.println("test");
-//				}
+				// if (mashupID == 7) {
+				// System.out.println("test");
+				// }
 
 				this.oldResult.isSuccessfulKS3Normal = true;
 				this.oldResult.timeConsumptionSuccessfulKS3Normal = q.timeConsumptionSuccessfulKS3Normal;
@@ -78,15 +78,15 @@ public class InstancePW {
 
 	public InstanceResult runNewAlgorithm(int mashupID) {
 		ArrayList<String> keywords = this.q.keywords;
-		// if (keywords.size() == 9 || keywords.size() == 7 || keywords.size()
-		// == 6 || keywords.size() == 5) {
+		// if (this.q.numKeywordsInMashup >= 2) {
 		NormalQuery nq = new NormalQuery();
 		if (nq.normalQueryPW(keywords, this.dg.invertedIndex, this.dg.adjIndex)) {
 			this.newResult.mashupID = mashupID;
 			this.newResult.numKeywordsInMashup = this.q.numKeywordsInMashup;
-//			if (this.q.numKeywordsInMashup == 10 && nq.timeConsumptionSuccessfulKS3Normal > 1500) {
-//				System.out.println("test");
-//			}
+			// if (this.q.numKeywordsInMashup == 10 &&
+			// nq.timeConsumptionSuccessfulKS3Normal > 1500) {
+			// System.out.println("test");
+			// }
 
 			this.newResult.isSuccessfulKS3Normal = true;
 			this.newResult.timeConsumptionSuccessfulKS3Normal = nq.timeConsumptionSuccessfulKS3Normal;

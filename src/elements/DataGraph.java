@@ -669,15 +669,15 @@ public class DataGraph {
 		 * this.adjIndex.get(edge.fromNode).add(edge.toNode); } }
 		 */
 
-		this.printAPIs(20);
-		this.printAPIs(21);
-		this.printAPIs(22);
-		this.printAPIs(23);
-
-		this.printAdjacentNodes(20);
-		this.printAdjacentNodes(21);
-		this.printAdjacentNodes(22);
-		this.printAdjacentNodes(23);
+//		this.printAPIs(20);
+//		this.printAPIs(21);
+//		this.printAPIs(22);
+//		this.printAPIs(23);
+//
+//		this.printAdjacentNodes(20);
+//		this.printAdjacentNodes(21);
+//		this.printAdjacentNodes(22);
+//		this.printAdjacentNodes(23);
 	}
 
 	public Node getRandomNeighbourWithinKSteps(Node node, int K) { // get random
@@ -1081,7 +1081,8 @@ public class DataGraph {
 				StdOut.println("\nNumber of edges selected: " + ycount);
 				StdOut.print("Selected edges:");
 				for (int i = 0; i < yal.size(); ++i) {
-					StdOut.print(yal.get(i).ID + ", ");
+					StdOut.print(yal.get(i).ID + "-" + "FromNode/" + yal.get(i).fromNode.ID + ":" + yal.get(i).fromNode.kw +">" + "ToNode/"
+							+ yal.get(i).toNode.ID + ":" + yal.get(i).toNode.kw + ", ");
 				}
 				StdOut.println();
 
@@ -1266,7 +1267,8 @@ public class DataGraph {
 				StdOut.println("\nNumber of edges selected: " + ycount);
 				StdOut.print("Selected edges:");
 				for (int i = 0; i < yal.size(); ++i) {
-					StdOut.print(yal.get(i).ID + ", ");
+					StdOut.print(yal.get(i).ID + "-" + "FromNode/" + yal.get(i).fromNode.ID + ":" + yal.get(i).fromNode.kw +">" + "ToNode/"
+							+ yal.get(i).toNode.ID + ":" + yal.get(i).toNode.kw + ", ");
 				}
 				StdOut.println();
 
@@ -1450,7 +1452,8 @@ public class DataGraph {
 				StdOut.println("\nNumber of edges selected: " + ycount);
 				StdOut.print("Selected edges:");
 				for (int i = 0; i < yal.size(); ++i) {
-					StdOut.print(yal.get(i).ID + ", ");
+					StdOut.print(yal.get(i).ID + "-" + "FromNode/" + yal.get(i).fromNode.ID + ":" + yal.get(i).fromNode.kw +">" + "ToNode/"
+							+ yal.get(i).toNode.ID + ":" + yal.get(i).toNode.kw + ", ");
 				}
 				StdOut.println();
 

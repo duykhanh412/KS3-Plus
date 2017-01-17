@@ -38,22 +38,25 @@ public class SimulationProcess {
 									for (int R = 0; R < Config.NUM_RUNS; ++R) {
 										StdOut.println("********************************* RUNNING SET " + setCounter
 												+ " RUN #" + R + " *********************************");
-										Instance instance = new Instance(N, EC, PC, K, KD, "normal", Q, D);
+										Instance instance = new Instance(N, EC, PC, K, KD, "normal", Q, D, R);
+										for (long j = 0; j < 9000000; j++) {
+											System.out.println(j);
+											;
+										}
 
 										// Previous Algorithm Result
-										instance.runOldAlgorithm();
-										setOldResult.add(instance.oldResult);
-
+										// instance.runOldAlgorithm();
+										// setOldResult.add(instance.oldResult);
+										////
 										// New Algorithm Result
 										instance.runNewAlgorithm();
 										setNewResult.add(instance.newResult);
+										int count = 0;
 									}
-									// setResult.averageResultsAll();
-									// srl.add(setResult);
 
 									// Previous Algorithm Result
-									setOldResult.averageResultsAll();
-									srlOld.add(setOldResult);
+									// setOldResult.averageResultsAll();
+									// srlOld.add(setOldResult);
 
 									// New Algorithm Result
 									setNewResult.averageResultsAll();
@@ -61,27 +64,28 @@ public class SimulationProcess {
 								}
 							}
 						}
-						String oldFilePath = ExcelWriter.composeExcelFilePath("Old");
-						// Previous Algorithm Result
-						StringBuilder oldFilePathStringBuilder = new StringBuilder();
-						oldFilePathStringBuilder.append(oldFilePath.substring(0, 20));
-						oldFilePathStringBuilder.append("Old_Results\\");
-						oldFilePathStringBuilder.append(oldFilePath.substring(20));
-						ExcelWriter ewOld = new ExcelWriter(oldFilePathStringBuilder.toString());
-						ewOld.write(srlOld);
 
-						// New Algorithm Result
-						String newFilePath = ExcelWriter.composeExcelFilePath("Old");
-						StringBuilder newFilePathStringBuilder = new StringBuilder();
-						newFilePathStringBuilder.append(newFilePath.substring(0, 20));
-						newFilePathStringBuilder.append("New_Results\\");
-						newFilePathStringBuilder.append(newFilePath.substring(20));
-						ExcelWriter ewNew = new ExcelWriter(newFilePathStringBuilder.toString());
-						ewNew.write(srlNew);
 					}
 				}
 			}
 		}
+		String oldFilePath = ExcelWriter.composeExcelFilePath("Old");
+		// Previous Algorithm Result
+		StringBuilder oldFilePathStringBuilder = new StringBuilder();
+		oldFilePathStringBuilder.append(oldFilePath.substring(0, 20));
+		oldFilePathStringBuilder.append("Old_Results\\");
+		oldFilePathStringBuilder.append(oldFilePath.substring(20));
+		ExcelWriter ewOld = new ExcelWriter(oldFilePathStringBuilder.toString());
+		ewOld.write(srlOld);
+
+		// New Algorithm Result
+		String newFilePath = ExcelWriter.composeExcelFilePath("New");
+		StringBuilder newFilePathStringBuilder = new StringBuilder();
+		newFilePathStringBuilder.append(newFilePath.substring(0, 20));
+		newFilePathStringBuilder.append("New_Results\\");
+		newFilePathStringBuilder.append(newFilePath.substring(20));
+		ExcelWriter ewNew = new ExcelWriter(newFilePathStringBuilder.toString());
+		ewNew.write(srlNew);
 		// String filePath = ExcelWriter.composeExcelFilePath();
 		// ExcelWriter ew = new ExcelWriter(filePath);
 		// ew.write(srl);
@@ -106,22 +110,23 @@ public class SimulationProcess {
 			instancePW = new InstancePW(dg, M, 0, 0, 0, 0, 0, "normal", 0, 0);
 			// instancePW.run();
 			// setResult.add(instancePW.result);
-			// New Algorithm
-			instancePW.runNewAlgorithm(M);
-			setNewResult.add(instancePW.newResult);
+			if (instancePW.q.numKeywordsInMashup >= 2) {
+				// New Algorithm
+				instancePW.runNewAlgorithm(M);
+				setNewResult.add(instancePW.newResult);
 
-			// Previous Algorithm
-			// instancePW.runOldAlgorithm(M);
-			// setOldResult.add(instancePW.oldResult);
-
+				// Previous Algorithm
+				instancePW.runOldAlgorithm(M);
+				setOldResult.add(instancePW.oldResult);
+			}
 			// Check Original SBS
 			// instancePW.checkOriginalSBS(M);
 			// setNewResult.add(instancePW.newResult);
 		}
 		// Save the results for the previous algorithm
-		// setOldResult.averageResultsAll();
-		// srlOld.add(setOldResult);
-		// writeOldResultsPW(srlOld);
+		setOldResult.averageResultsAll();
+		srlOld.add(setOldResult);
+		writeOldResultsPW(srlOld);
 
 		// Save the results for the new algorithm
 		setNewResult.averageResultsAll();

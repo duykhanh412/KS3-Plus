@@ -67,7 +67,7 @@ public class OptimalQuery {
 					initialTrees.setQoS(listOfKeywordNode.get(j).QoS);
 					int qualityCheck = 0;
 					for (int check = 0; check < QoS.length; check++) {
-						if (initialTrees.getQoS()[check] < QoS[check])
+						if (initialTrees.getQoS()[check] <= QoS[check])
 							qualityCheck++;
 					}
 					if (qualityCheck == QoS.length) {
@@ -174,7 +174,7 @@ public class OptimalQuery {
 						// Check quality constraints
 						int qualityCheck = 0;
 						for (int check = 0; check < QoS.length; check++) {
-							if (intermediateTree.getQoS()[check] < QoS[check])
+							if (intermediateTree.getQoS()[check] <= QoS[check])
 								qualityCheck++;
 						}
 						if (qualityCheck == QoS.length) {
@@ -280,7 +280,7 @@ public class OptimalQuery {
 								// Check quality constraints
 								int qualityCheck = 0;
 								for (int check = 0; check < QoS.length; check++) {
-									if (intermediateTreeMerge.getQoS()[check] < QoS[check])
+									if (intermediateTreeMerge.getQoS()[check] <= QoS[check])
 										qualityCheck++;
 								}
 								if (qualityCheck == QoS.length) {

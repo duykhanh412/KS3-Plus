@@ -67,7 +67,7 @@ public class QualityConstraintsQuery {
 					initialTrees.setQoS(listOfKeywordNode.get(j).QoS);
 					int qualityCheck = 0;
 					for (int check = 0; check < QoS.length; check++) {
-						if (initialTrees.getQoS()[check] < QoS[check])
+						if (initialTrees.getQoS()[check] <= QoS[check])
 							qualityCheck++;
 					}
 					if (qualityCheck == QoS.length) {
@@ -124,6 +124,7 @@ public class QualityConstraintsQuery {
 						System.out.print(subprefix + " " + firstResult.getQoS()[i]);
 						subprefix = ",";
 					}
+					System.out.println();
 					return true;
 				}
 			}
@@ -164,49 +165,39 @@ public class QualityConstraintsQuery {
 						copyKeywords, firstOrder.getNumberOfNodes(), firstOrder.getQoS());
 
 				if (intermediateTree.growTree(adjacentNodes.get(i), keywordsMapping)) {
-					if ((intermediateTree.getNumberOfNodes()
-							+ (keywords.size() - intermediateTree.getKeywords().size())) <= 2 * keywords.size()) {
-						intermediateTree.setQoS(adjacentNodes.get(i).QoS);
-						// Check quality constraints
-						int qualityCheck = 0;
-						for (int check = 0; check < QoS.length; check++) {
-							if (intermediateTree.getQoS()[check] < QoS[check])
-								qualityCheck++;
-						}
-						if (qualityCheck == QoS.length) {
-							if (numberOfNodesInfo.containsKey(intermediateTree)) {
-								SteinerTree test = new SteinerTree(numberOfNodesInfo.get(intermediateTree).getRoot(),
-										numberOfNodesInfo.get(intermediateTree).getNodes(),
-										numberOfNodesInfo.get(intermediateTree).getKeywords(),
-										numberOfNodesInfo.get(intermediateTree).getNumberOfNodes());
+					// if ((intermediateTree.getNumberOfNodes()
+					// + (keywords.size() -
+					// intermediateTree.getKeywords().size())) <= 2 *
+					// keywords.size()) {
+					intermediateTree.setQoS(adjacentNodes.get(i).QoS);
+					// Check quality constraints
+					int qualityCheck = 0;
+					for (int check = 0; check < QoS.length; check++) {
+						if (intermediateTree.getQoS()[check] <= QoS[check])
+							qualityCheck++;
+					}
+					if (qualityCheck == QoS.length) {
+						if (numberOfNodesInfo.containsKey(intermediateTree)) {
+							SteinerTree test = new SteinerTree(numberOfNodesInfo.get(intermediateTree).getRoot(),
+									numberOfNodesInfo.get(intermediateTree).getNodes(),
+									numberOfNodesInfo.get(intermediateTree).getKeywords(),
+									numberOfNodesInfo.get(intermediateTree).getNumberOfNodes());
 
-								if (intermediateTree.getNumberOfNodes() < test.getNumberOfNodes()) {
-									if (removedSubTreeQueue.containsKey(test)) {
-										removedSubTreeQueue.get(test).put(test.getNumberOfNodes(), test);
-									} else {
-										HashMap<Integer, SteinerTree> numberOfNodesMap = new HashMap<Integer, SteinerTree>();
-										numberOfNodesMap.put(test.getNumberOfNodes(), test);
-										removedSubTreeQueue.put(test, numberOfNodesMap);
-									}
-									// subTreeQueue.remove(test);
-									subTreeQueue.add(intermediateTree);
-
-									numberOfNodesInfo.put(intermediateTree, intermediateTree);
-
-									if (invertedRootSteinerTree.containsKey(adjacentNodes.get(i))) {
-										invertedRootSteinerTree.get(adjacentNodes.get(i)).remove(test);
-										invertedRootSteinerTree.get(adjacentNodes.get(i)).add(intermediateTree);
-									} else {
-										ArrayList<SteinerTree> steinerTrees = new ArrayList<SteinerTree>();
-										steinerTrees.add(intermediateTree);
-										invertedRootSteinerTree.put(adjacentNodes.get(i), steinerTrees);
-									}
+							if (intermediateTree.getNumberOfNodes() < test.getNumberOfNodes()) {
+								if (removedSubTreeQueue.containsKey(test)) {
+									removedSubTreeQueue.get(test).put(test.getNumberOfNodes(), test);
+								} else {
+									HashMap<Integer, SteinerTree> numberOfNodesMap = new HashMap<Integer, SteinerTree>();
+									numberOfNodesMap.put(test.getNumberOfNodes(), test);
+									removedSubTreeQueue.put(test, numberOfNodesMap);
 								}
-							} else {
+								// subTreeQueue.remove(test);
 								subTreeQueue.add(intermediateTree);
+
 								numberOfNodesInfo.put(intermediateTree, intermediateTree);
 
 								if (invertedRootSteinerTree.containsKey(adjacentNodes.get(i))) {
+									invertedRootSteinerTree.get(adjacentNodes.get(i)).remove(test);
 									invertedRootSteinerTree.get(adjacentNodes.get(i)).add(intermediateTree);
 								} else {
 									ArrayList<SteinerTree> steinerTrees = new ArrayList<SteinerTree>();
@@ -214,11 +205,23 @@ public class QualityConstraintsQuery {
 									invertedRootSteinerTree.put(adjacentNodes.get(i), steinerTrees);
 								}
 							}
-							if (intermediateTree.minimumSteinerTree(keywords)) {
-								resultQueue.add(intermediateTree);
+						} else {
+							subTreeQueue.add(intermediateTree);
+							numberOfNodesInfo.put(intermediateTree, intermediateTree);
+
+							if (invertedRootSteinerTree.containsKey(adjacentNodes.get(i))) {
+								invertedRootSteinerTree.get(adjacentNodes.get(i)).add(intermediateTree);
+							} else {
+								ArrayList<SteinerTree> steinerTrees = new ArrayList<SteinerTree>();
+								steinerTrees.add(intermediateTree);
+								invertedRootSteinerTree.put(adjacentNodes.get(i), steinerTrees);
 							}
 						}
+						if (intermediateTree.minimumSteinerTree(keywords)) {
+							resultQueue.add(intermediateTree);
+						}
 					}
+					// }
 				}
 			}
 
@@ -264,65 +267,63 @@ public class QualityConstraintsQuery {
 
 					if (!intermediateTreeMerge.equals(mergedTree)) {
 						if (intermediateTreeMerge.mergeTreeWithQualityConstraints(mergedTree)) {
-							if ((intermediateTreeMerge.getNumberOfNodes()
-									+ (keywords.size() - intermediateTreeMerge.getKeywords().size())) <= 2
-											* keywords.size()) {
-								// Check quality constraints
-								int qualityCheck = 0;
-								for (int check = 0; check < QoS.length; check++) {
-									if (intermediateTreeMerge.getQoS()[check] < QoS[check])
-										qualityCheck++;
-								}
-								if (qualityCheck == QoS.length) {
-									if (numberOfNodesInfo.containsKey(intermediateTreeMerge)) {
-										if (intermediateTreeMerge.getNumberOfNodes() < numberOfNodesInfo
-												.get(intermediateTreeMerge).getNumberOfNodes()) {
+							// if ((intermediateTreeMerge.getNumberOfNodes()
+							// + (keywords.size() -
+							// intermediateTreeMerge.getKeywords().size())) <= 2
+							// * keywords.size()) {
+							// // Check quality constraints
+							int qualityCheck = 0;
+							for (int check = 0; check < QoS.length; check++) {
+								if (intermediateTreeMerge.getQoS()[check] <= QoS[check])
+									qualityCheck++;
+							}
+							if (qualityCheck == QoS.length) {
+								if (numberOfNodesInfo.containsKey(intermediateTreeMerge)) {
+									if (intermediateTreeMerge.getNumberOfNodes() < numberOfNodesInfo
+											.get(intermediateTreeMerge).getNumberOfNodes()) {
 
-											if (removedSubTreeQueue.containsKey(intermediateTreeMerge)) {
-												removedSubTreeQueue.get(intermediateTreeMerge).put(
-														intermediateTreeMerge.getNumberOfNodes(),
-														intermediateTreeMerge);
-											} else {
-												HashMap<Integer, SteinerTree> numberOfNodesMap = new HashMap<Integer, SteinerTree>();
-												numberOfNodesMap.put(intermediateTreeMerge.getNumberOfNodes(),
-														intermediateTreeMerge);
-												removedSubTreeQueue.put(intermediateTreeMerge, numberOfNodesMap);
-											}
-
-											// subTreeQueue.remove(intermediateTreeMerge);
-											subTreeQueue.add(intermediateTreeMerge);
-
-											numberOfNodesInfo.put(intermediateTreeMerge, intermediateTreeMerge);
-
-											invertedRootSteinerTree.get(firstOrder.getRoot())
-													.remove(numberOfNodesInfo.get(intermediateTreeMerge));
-
-											invertedRootSteinerTree.get(firstOrder.getRoot())
-													.add(intermediateTreeMerge);
-											i--;
-											testSize--;
+										if (removedSubTreeQueue.containsKey(intermediateTreeMerge)) {
+											removedSubTreeQueue.get(intermediateTreeMerge).put(
+													intermediateTreeMerge.getNumberOfNodes(), intermediateTreeMerge);
+										} else {
+											HashMap<Integer, SteinerTree> numberOfNodesMap = new HashMap<Integer, SteinerTree>();
+											numberOfNodesMap.put(intermediateTreeMerge.getNumberOfNodes(),
+													intermediateTreeMerge);
+											removedSubTreeQueue.put(intermediateTreeMerge, numberOfNodesMap);
 										}
 
-									} else {
+										// subTreeQueue.remove(intermediateTreeMerge);
 										subTreeQueue.add(intermediateTreeMerge);
+
 										numberOfNodesInfo.put(intermediateTreeMerge, intermediateTreeMerge);
 
-										if (invertedRootSteinerTree.containsKey(firstOrder.getRoot())) {
-											invertedRootSteinerTree.get(firstOrder.getRoot())
-													.add(intermediateTreeMerge);
-										} else {
-											ArrayList<SteinerTree> steinerTrees = new ArrayList<SteinerTree>();
-											steinerTrees.add(intermediateTreeMerge);
-											invertedRootSteinerTree.put(intermediateTreeMerge.getRoot(), steinerTrees);
-										}
+										invertedRootSteinerTree.get(firstOrder.getRoot())
+												.remove(numberOfNodesInfo.get(intermediateTreeMerge));
+
+										invertedRootSteinerTree.get(firstOrder.getRoot()).add(intermediateTreeMerge);
+										i--;
+										testSize--;
 									}
-									if (intermediateTreeMerge.minimumSteinerTree(keywords)) {
-										resultQueue.add(intermediateTreeMerge);
+
+								} else {
+									subTreeQueue.add(intermediateTreeMerge);
+									numberOfNodesInfo.put(intermediateTreeMerge, intermediateTreeMerge);
+
+									if (invertedRootSteinerTree.containsKey(firstOrder.getRoot())) {
+										invertedRootSteinerTree.get(firstOrder.getRoot()).add(intermediateTreeMerge);
+									} else {
+										ArrayList<SteinerTree> steinerTrees = new ArrayList<SteinerTree>();
+										steinerTrees.add(intermediateTreeMerge);
+										invertedRootSteinerTree.put(intermediateTreeMerge.getRoot(), steinerTrees);
 									}
+								}
+								if (intermediateTreeMerge.minimumSteinerTree(keywords)) {
+									resultQueue.add(intermediateTreeMerge);
 								}
 							}
 						}
 					}
+					// }
 				}
 			}
 		}
