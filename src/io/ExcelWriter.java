@@ -572,7 +572,7 @@ public class ExcelWriter {
 		} else {
 			dPart = "D" + Config.MIN_DIFF_COEFF;
 		}
-		return "D:\\ICSE2016_Results\\" + resultFolder + "\\" + nPart + "-" + ecPart + "-" + pcPart + "-" + kPart + "-"
+		return "D:\\FSE2017_Results\\Random\\" + resultFolder + "\\" + nPart + "-" + ecPart + "-" + pcPart + "-" + kPart + "-"
 				+ kdPart + "-" + qPart + "-" + dPart + "-" + versionOfAlgorithm + ".xls";
 	}
 
@@ -588,7 +588,7 @@ public class ExcelWriter {
 		} else {
 			kdPart = "KD" + Config.MIN_KEYWORD_DISTANCE;
 		}
-		return "D:\\TSE2016_Results\\" + resultFolder + "\\" + "PW_" + kPart + "-" + kdPart + "-" + versionOfAlgorithm
+		return "D:\\FSE2017_Results\\PW\\" + resultFolder + "\\" + "PW_" + kPart + "-" + kdPart + "-" + versionOfAlgorithm
 				+ ".xls";
 	}
 }
