@@ -13,7 +13,7 @@ import elements.DataGraph;
 public class SimulationProcess {
 	public static void main(String[] args) {
 		SimulationProcess sp = new SimulationProcess();
-		// sp.run();
+//		 sp.run();
 		sp.runPW();
 	}
 
@@ -39,15 +39,11 @@ public class SimulationProcess {
 										StdOut.println("********************************* RUNNING SET " + setCounter
 												+ " RUN #" + R + " *********************************");
 										Instance instance = new Instance(N, EC, PC, K, KD, "normal", Q, D, R);
-										for (long j = 0; j < 9000000; j++) {
-											System.out.println(j);
-											;
-										}
 
 										// Previous Algorithm Result
 										// instance.runOldAlgorithm();
 										// setOldResult.add(instance.oldResult);
-										////
+
 										// New Algorithm Result
 										instance.runNewAlgorithm();
 										setNewResult.add(instance.newResult);
@@ -69,26 +65,14 @@ public class SimulationProcess {
 				}
 			}
 		}
-		String oldFilePath = ExcelWriter.composeExcelFilePath("Old");
+		String oldFilePath = ExcelWriter.composeExcelFilePath("Old_Results","Old");
 		// Previous Algorithm Result
-		StringBuilder oldFilePathStringBuilder = new StringBuilder();
-		oldFilePathStringBuilder.append(oldFilePath.substring(0, 20));
-		oldFilePathStringBuilder.append("Old_Results\\");
-		oldFilePathStringBuilder.append(oldFilePath.substring(20));
-		ExcelWriter ewOld = new ExcelWriter(oldFilePathStringBuilder.toString());
+		ExcelWriter ewOld = new ExcelWriter(oldFilePath.toString());
 		ewOld.write(srlOld);
 
 		// New Algorithm Result
-		String newFilePath = ExcelWriter.composeExcelFilePath("New");
-		StringBuilder newFilePathStringBuilder = new StringBuilder();
-		newFilePathStringBuilder.append(newFilePath.substring(0, 20));
-		newFilePathStringBuilder.append("New_Results\\");
-		newFilePathStringBuilder.append(newFilePath.substring(20));
-		ExcelWriter ewNew = new ExcelWriter(newFilePathStringBuilder.toString());
-		ewNew.write(srlNew);
-		// String filePath = ExcelWriter.composeExcelFilePath();
-		// ExcelWriter ew = new ExcelWriter(filePath);
-		// ew.write(srl);
+		String newFilePath = ExcelWriter.composeExcelFilePath("New_Results","New");
+		ExcelWriter ewNew = new ExcelWriter(newFilePath);
 	}
 
 	public void runPW() { // run experiments on programmableweb dataset
@@ -102,7 +86,7 @@ public class SimulationProcess {
 		SetResult setNewResult = new SetResult(0, 0, 0, 0, 0, 0, 0);
 
 		InstancePW instancePW;
-		for (int M = 6001; M <= 6294; ++M) {
+		for (int M = 6001; M <= 6100; ++M) {
 			StdOut.println("********************************* Verifying " + "Mashup #" + M
 					+ " *********************************");
 			Setting setting = new Setting(0, 0, 0, 0, 0, "normal", 0, 0);
@@ -135,31 +119,17 @@ public class SimulationProcess {
 		// displayGraph(dg);
 	}
 
-	public static void writeResults(SetResultList srl) {
-		String filePath = ExcelWriter.composeExcelFilePath("");
-		ExcelWriter ew = new ExcelWriter(filePath);
-		ew.write(srl);
-	}
-
 	public static void writeOldResultsPW(SetResultList srl) { // to be modified
 																// to pw version
-		String filePath = ExcelWriter.composeExcelFilePathPW();
-		StringBuilder oldFilePath = new StringBuilder();
-		oldFilePath.append(filePath.substring(0, 19));
-		oldFilePath.append("Old_Results\\");
-		oldFilePath.append(filePath.substring(19));
-		ExcelWriter ew = new ExcelWriter(oldFilePath.toString());
+		String filePath = ExcelWriter.composeExcelFilePathPW("Old_Results","Old");
+		ExcelWriter ew = new ExcelWriter(filePath.toString());
 		ew.writePW(srl);
 	}
 
 	public static void writeNewResultsPW(SetResultList srl) { // to be modified
 																// to pw version
-		String filePath = ExcelWriter.composeExcelFilePathPW();
-		StringBuilder newFilePath = new StringBuilder();
-		newFilePath.append(filePath.substring(0, 19));
-		newFilePath.append("New_Results\\");
-		newFilePath.append(filePath.substring(19));
-		ExcelWriter ew = new ExcelWriter(newFilePath.toString());
+		String filePath = ExcelWriter.composeExcelFilePathPW("New_Results","New");
+		ExcelWriter ew = new ExcelWriter(filePath.toString());
 		ew.writePW(srl);
 	}
 

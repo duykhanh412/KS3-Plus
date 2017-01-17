@@ -1,18 +1,18 @@
 package simulation;
 
 public class Config {
-	public static int NUM_RUNS = 100;
+	public static int NUM_RUNS = 10;
 	
 	public static int MIN_NODES = 2000; //Min:10
 	public static int MAX_NODES = 2000; //Max:1000
-	public static int MIN_KEYWORDS = 5;
-	public static int MAX_KEYWORDS = 5; //Max: 5
+	public static int MIN_KEYWORDS = 2;
+	public static int MAX_KEYWORDS = 2; //Max: 5
 	
 	public static int MIN_KEYWORD_DISTANCE = 2; //Min: 0 indicating that there is no limit on the keyword distance
 	public static int MAX_KEYWORD_DISTANCE = 2;
 	
-	public static double MIN_EDGE_COEFFICIENT = 1; //Min: 1 	for creating random data graph
-	public static double MAX_EDGE_COEFFICIENT = 1; //Max: 4		for creating random data graph
+	public static double MIN_EDGE_COEFFICIENT = 3; //Min: 1 	for creating random data graph
+	public static double MAX_EDGE_COEFFICIENT = 4; //Max: 4		for creating random data graph
 	public static double MIN_P_COEFFICIENT = 2; //Min: 1.5		for creating random data graph
 	public static double MAX_P_COEFFICIENT = 2; //Max: 3.0		for creating random data graph
 	

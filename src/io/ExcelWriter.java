@@ -535,7 +535,7 @@ public class ExcelWriter {
 		}
 	}
 
-	public static String composeExcelFilePath(String versionOfAlgorithm) {
+	public static String composeExcelFilePath(String resultFolder, String versionOfAlgorithm) {
 		String nPart, ecPart, pcPart, kPart, kdPart, qPart, dPart;
 		if (Config.MIN_NODES != Config.MAX_NODES) {
 			nPart = "NX";
@@ -572,11 +572,11 @@ public class ExcelWriter {
 		} else {
 			dPart = "D" + Config.MIN_DIFF_COEFF;
 		}
-		return "D:\\ICSE2016_Results\\" + nPart + "-" + ecPart + "-" + pcPart + "-" + kPart + "-" + kdPart + "-" + qPart
-				+ "-" + dPart + "-" + versionOfAlgorithm + ".xls";
+		return "D:\\ICSE2016_Results\\" + resultFolder + "\\" + nPart + "-" + ecPart + "-" + pcPart + "-" + kPart + "-"
+				+ kdPart + "-" + qPart + "-" + dPart + "-" + versionOfAlgorithm + ".xls";
 	}
 
-	public static String composeExcelFilePathPW() {
+	public static String composeExcelFilePathPW(String resultFolder, String versionOfAlgorithm) {
 		String kPart, kdPart;
 		if (Config.MIN_KEYWORDS != Config.MAX_KEYWORDS) {
 			kPart = "KX";
@@ -588,6 +588,7 @@ public class ExcelWriter {
 		} else {
 			kdPart = "KD" + Config.MIN_KEYWORD_DISTANCE;
 		}
-		return "D:\\TSE2016_Results\\PW_" + kPart + "-" + kdPart + ".xls";
+		return "D:\\TSE2016_Results\\" + resultFolder + "\\" + "PW_" + kPart + "-" + kdPart + "-" + versionOfAlgorithm
+				+ ".xls";
 	}
 }
