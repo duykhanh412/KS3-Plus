@@ -117,7 +117,7 @@ public class SteinerTree {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((keywords == null) ? 0 : keywords.hashCode());
+		result = prime * result + ((keywordsString == null) ? 0 : keywordsString.hashCode());
 		result = prime * result + ((root == null) ? 0 : root.hashCode());
 		return result;
 	}
@@ -131,10 +131,10 @@ public class SteinerTree {
 		if (getClass() != obj.getClass())
 			return false;
 		SteinerTree other = (SteinerTree) obj;
-		if (keywords == null) {
-			if (other.keywords != null)
+		if (keywordsString == null) {
+			if (other.keywordsString != null)
 				return false;
-		} else if (!keywords.equals(other.keywords))
+		} else if (!keywordsString.equals(other.keywordsString))
 			return false;
 		if (root == null) {
 			if (other.root != null)

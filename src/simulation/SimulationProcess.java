@@ -13,8 +13,8 @@ import elements.DataGraph;
 public class SimulationProcess {
 	public static void main(String[] args) {
 		SimulationProcess sp = new SimulationProcess();
-//		 sp.run();
-		sp.runPW();
+		 sp.run();
+//		sp.runPW();
 	}
 
 	public void run() {
@@ -41,38 +41,40 @@ public class SimulationProcess {
 										Instance instance = new Instance(N, EC, PC, K, KD, "normal", Q, D, R);
 
 										// Previous Algorithm Result
-										// instance.runOldAlgorithm();
-										// setOldResult.add(instance.oldResult);
+										 instance.runOldAlgorithm();
+										 setOldResult.add(instance.oldResult);
 
 										// New Algorithm Result
 										instance.runNewAlgorithm();
 										setNewResult.add(instance.newResult);
-										int count = 0;
 									}
 
 									// Previous Algorithm Result
-									// setOldResult.averageResultsAll();
-									// srlOld.add(setOldResult);
+									 setOldResult.averageResultsAll();
+									 srlOld.add(setOldResult);
 
 									// New Algorithm Result
 									setNewResult.averageResultsAll();
 									srlNew.add(setNewResult);
+									
+									// Previous Algorithm Result
+									String oldFilePath = ExcelWriter.composeExcelFilePath("Old_Results","Old");
+									ExcelWriter ewOld = new ExcelWriter(oldFilePath.toString());
+									ewOld.write(srlOld);
+
+									// New Algorithm Result
+									String newFilePath = ExcelWriter.composeExcelFilePath("New_Results","New");
+									ExcelWriter ewNew = new ExcelWriter(newFilePath);
+									ewNew.write(srlNew);
 								}
 							}
 						}
-
+						
 					}
 				}
 			}
 		}
-		String oldFilePath = ExcelWriter.composeExcelFilePath("Old_Results","Old");
-		// Previous Algorithm Result
-		ExcelWriter ewOld = new ExcelWriter(oldFilePath.toString());
-		ewOld.write(srlOld);
 
-		// New Algorithm Result
-		String newFilePath = ExcelWriter.composeExcelFilePath("New_Results","New");
-		ExcelWriter ewNew = new ExcelWriter(newFilePath);
 	}
 
 	public void runPW() { // run experiments on programmableweb dataset

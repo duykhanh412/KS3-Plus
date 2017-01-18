@@ -895,7 +895,8 @@ public class DataGraph {
 				StdOut.println("\nNumber of edges selected: " + ycount);
 				StdOut.print("Selected edges:");
 				for (int i = 0; i < yal.size(); ++i) {
-					StdOut.print(yal.get(i).ID + ", ");
+					StdOut.print(yal.get(i).ID + "-" + "FromNode/" + yal.get(i).fromNode.ID + ":" + yal.get(i).fromNode.kw +">" + "ToNode/"
+							+ yal.get(i).toNode.ID + ":" + yal.get(i).toNode.kw + ", ");
 				}
 				StdOut.println();
 

@@ -173,7 +173,7 @@ public class NormalQuery {
 				test = invertedRootSteinerTree.get(firstOrder.getRoot());
 
 				int testSize = test.size();
-
+				
 				for (int i = 0; i < testSize; i++) {
 					if (test.get(i).equals(firstOrder)) {
 						test.remove(i);
@@ -410,9 +410,7 @@ public class NormalQuery {
 			if (invertedRootSteinerTree.containsKey(firstOrder.getRoot())) {
 				ArrayList<SteinerTree> test = new ArrayList<SteinerTree>();
 				test = invertedRootSteinerTree.get(firstOrder.getRoot());
-
 				int testSize = test.size();
-
 				for (int i = 0; i < testSize; i++) {
 					if (test.get(i).equals(firstOrder)) {
 						test.remove(i);

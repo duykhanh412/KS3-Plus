@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-import other.TreeCostComparator;
+import other.*;
 import elements.*;
 
 public class QualityConstraintsQuery {
@@ -23,24 +23,26 @@ public class QualityConstraintsQuery {
 		}
 		System.out.println();
 
-		Comparator<SteinerTree> comparator = new TreeCostComparator();
+		Comparator<OptimalSteinerTree> comparator = new QualityQueueComparator();
 
 		// The first tree taken from the priority queue
 		// SteinerTree firstOrder = new SteinerTree();
 
 		// The priority queue sorted in the increasing order of costs of trees
-		PriorityQueue<SteinerTree> subTreeQueue = new PriorityQueue<SteinerTree>(keywords.size(), comparator);
+		PriorityQueue<OptimalSteinerTree> subTreeQueue = new PriorityQueue<OptimalSteinerTree>(keywords.size(),
+				comparator);
 
-		PriorityQueue<SteinerTree> resultQueue = new PriorityQueue<SteinerTree>(keywords.size(), comparator);
+		PriorityQueue<OptimalSteinerTree> resultQueue = new PriorityQueue<OptimalSteinerTree>(keywords.size(),
+				comparator);
 
-		HashMap<SteinerTree, HashMap<Integer, SteinerTree>> removedSubTreeQueue = new HashMap<SteinerTree, HashMap<Integer, SteinerTree>>();
+		HashMap<OptimalSteinerTree, HashMap<Integer, OptimalSteinerTree>> removedSubTreeQueue = new HashMap<OptimalSteinerTree, HashMap<Integer, OptimalSteinerTree>>();
 		// Intermediate hash map to save the information of number of nodes in a
 		// tree
-		HashMap<SteinerTree, SteinerTree> numberOfNodesInfo = new HashMap<SteinerTree, SteinerTree>();
+		HashMap<OptimalSteinerTree, OptimalSteinerTree> numberOfNodesInfo = new HashMap<OptimalSteinerTree, OptimalSteinerTree>();
 
 		HashMap<String, Integer> keywordsMapping = new HashMap<String, Integer>();
 
-		HashMap<Node, ArrayList<SteinerTree>> invertedRootSteinerTree = new HashMap<Node, ArrayList<SteinerTree>>();
+		HashMap<Node, ArrayList<OptimalSteinerTree>> invertedRootSteinerTree = new HashMap<Node, ArrayList<OptimalSteinerTree>>();
 
 		long startTime = System.currentTimeMillis();
 
@@ -55,8 +57,8 @@ public class QualityConstraintsQuery {
 							new Node(listOfKeywordNode.get(j).ID, listOfKeywordNode.get(j).kw));
 					Node root = new Node(listOfKeywordNode.get(j).ID, listOfKeywordNode.get(j).kw,
 							listOfKeywordNode.get(j).QoS);
-					SteinerTree initialTrees = new SteinerTree(root, new HashMap<String, Node>(), keywordsInput, 1,
-							QoS.length);
+					OptimalSteinerTree initialTrees = new OptimalSteinerTree(root, new HashMap<String, Node>(),
+							keywordsInput, 1, QoS.length);
 					// double[] initialNodesQuality = new
 					// double[listOfKeywordNode.get(j).QoS.length];
 					// for (int check = 0; check <
@@ -74,7 +76,7 @@ public class QualityConstraintsQuery {
 						subTreeQueue.add(initialTrees);
 						numberOfNodesInfo.put(initialTrees, initialTrees);
 
-						ArrayList<SteinerTree> steinerTrees = new ArrayList<SteinerTree>();
+						ArrayList<OptimalSteinerTree> steinerTrees = new ArrayList<OptimalSteinerTree>();
 						steinerTrees.add(initialTrees);
 						invertedRootSteinerTree.put(root, steinerTrees);
 					}
@@ -89,8 +91,8 @@ public class QualityConstraintsQuery {
 
 		while (subTreeQueue.size() != 0) {
 
-			SteinerTree firstOrder = subTreeQueue.remove();
-			SteinerTree testRemove = numberOfNodesInfo.remove(firstOrder);
+			OptimalSteinerTree firstOrder = subTreeQueue.remove();
+			OptimalSteinerTree testRemove = numberOfNodesInfo.remove(firstOrder);
 
 			if (removedSubTreeQueue.containsKey(firstOrder)) {
 				if (removedSubTreeQueue.get(firstOrder).size() == 0) {
@@ -102,7 +104,7 @@ public class QualityConstraintsQuery {
 			}
 
 			if (resultQueue.size() > 0) {
-				SteinerTree firstResult = resultQueue.peek();
+				OptimalSteinerTree firstResult = resultQueue.peek();
 				if (firstOrder.getNumberOfNodes() >= firstResult.getNumberOfNodes()) {
 					long endTime = System.currentTimeMillis();
 					System.out.println("The root of the result tree: " + firstResult.getRoot().ID + "-"
@@ -160,7 +162,7 @@ public class QualityConstraintsQuery {
 				HashMap<Node, Node> copyKeywords = new HashMap<Node, Node>();
 				copyKeywords.putAll(firstOrder.getKeywords());
 
-				SteinerTree intermediateTree = new SteinerTree(
+				OptimalSteinerTree intermediateTree = new OptimalSteinerTree(
 						new Node(firstOrder.getRoot().ID, firstOrder.getRoot().kw, firstOrder.getRoot().QoS), copyNodes,
 						copyKeywords, firstOrder.getNumberOfNodes(), firstOrder.getQoS());
 
@@ -178,7 +180,8 @@ public class QualityConstraintsQuery {
 					}
 					if (qualityCheck == QoS.length) {
 						if (numberOfNodesInfo.containsKey(intermediateTree)) {
-							SteinerTree test = new SteinerTree(numberOfNodesInfo.get(intermediateTree).getRoot(),
+							OptimalSteinerTree test = new OptimalSteinerTree(
+									numberOfNodesInfo.get(intermediateTree).getRoot(),
 									numberOfNodesInfo.get(intermediateTree).getNodes(),
 									numberOfNodesInfo.get(intermediateTree).getKeywords(),
 									numberOfNodesInfo.get(intermediateTree).getNumberOfNodes());
@@ -187,7 +190,7 @@ public class QualityConstraintsQuery {
 								if (removedSubTreeQueue.containsKey(test)) {
 									removedSubTreeQueue.get(test).put(test.getNumberOfNodes(), test);
 								} else {
-									HashMap<Integer, SteinerTree> numberOfNodesMap = new HashMap<Integer, SteinerTree>();
+									HashMap<Integer, OptimalSteinerTree> numberOfNodesMap = new HashMap<Integer, OptimalSteinerTree>();
 									numberOfNodesMap.put(test.getNumberOfNodes(), test);
 									removedSubTreeQueue.put(test, numberOfNodesMap);
 								}
@@ -200,7 +203,7 @@ public class QualityConstraintsQuery {
 									invertedRootSteinerTree.get(adjacentNodes.get(i)).remove(test);
 									invertedRootSteinerTree.get(adjacentNodes.get(i)).add(intermediateTree);
 								} else {
-									ArrayList<SteinerTree> steinerTrees = new ArrayList<SteinerTree>();
+									ArrayList<OptimalSteinerTree> steinerTrees = new ArrayList<OptimalSteinerTree>();
 									steinerTrees.add(intermediateTree);
 									invertedRootSteinerTree.put(adjacentNodes.get(i), steinerTrees);
 								}
@@ -212,7 +215,7 @@ public class QualityConstraintsQuery {
 							if (invertedRootSteinerTree.containsKey(adjacentNodes.get(i))) {
 								invertedRootSteinerTree.get(adjacentNodes.get(i)).add(intermediateTree);
 							} else {
-								ArrayList<SteinerTree> steinerTrees = new ArrayList<SteinerTree>();
+								ArrayList<OptimalSteinerTree> steinerTrees = new ArrayList<OptimalSteinerTree>();
 								steinerTrees.add(intermediateTree);
 								invertedRootSteinerTree.put(adjacentNodes.get(i), steinerTrees);
 							}
@@ -227,7 +230,7 @@ public class QualityConstraintsQuery {
 
 			// Merge Tree
 			if (invertedRootSteinerTree.containsKey(firstOrder.getRoot())) {
-				ArrayList<SteinerTree> test = new ArrayList<SteinerTree>();
+				ArrayList<OptimalSteinerTree> test = new ArrayList<OptimalSteinerTree>();
 				test = invertedRootSteinerTree.get(firstOrder.getRoot());
 
 				int testSize = test.size();
@@ -239,6 +242,33 @@ public class QualityConstraintsQuery {
 						i--;
 						continue;
 					}
+					if (test.get(i).getKeywordsString().equals(firstOrder.getKeywordsString())) {
+						if (firstOrder.getNumberOfNodes() < test.get(i).getNumberOfNodes()) {
+							int check = 0;
+							for (int k = 0; k < firstOrder.getQoS().length; k++) {
+								if (firstOrder.getQoS()[k] <= test.get(i).getQoS()[k]) {
+									check++;
+								}
+							}
+							if (check == firstOrder.getQoS().length) {
+								if (removedSubTreeQueue.containsKey(test.get(i))) {
+									removedSubTreeQueue.get(test.get(i)).put(test.get(i).getNumberOfNodes(),
+											test.get(i));
+								} else {
+									HashMap<Integer, OptimalSteinerTree> numberOfNodesMap = new HashMap<Integer, OptimalSteinerTree>();
+									numberOfNodesMap.put(test.get(i).getNumberOfNodes(), test.get(i));
+									removedSubTreeQueue.put(test.get(i), numberOfNodesMap);
+								}
+
+								numberOfNodesInfo.remove(test.get(i));
+
+								test.remove(i);
+								testSize--;
+								i--;
+							}
+						}
+						continue;
+					}
 					if (test.size() == 0) {
 						invertedRootSteinerTree.remove(firstOrder.getRoot());
 						break;
@@ -248,18 +278,18 @@ public class QualityConstraintsQuery {
 					HashMap<Node, Node> copyKeywords = new HashMap<Node, Node>();
 					copyKeywords.putAll(firstOrder.getKeywords());
 
-					SteinerTree intermediateTreeMerge = new SteinerTree(
+					OptimalSteinerTree intermediateTreeMerge = new OptimalSteinerTree(
 							new Node(firstOrder.getRoot().ID, firstOrder.getRoot().kw, firstOrder.getRoot().QoS),
 							copyNodes, copyKeywords, firstOrder.getNumberOfNodes(), firstOrder.getQoS());
 
-					SteinerTree elementsInSameRootTreeQueue = test.get(i);
+					OptimalSteinerTree elementsInSameRootTreeQueue = test.get(i);
 
 					HashMap<String, Node> copyNodesForMergedTree = new HashMap<String, Node>();
 					copyNodesForMergedTree.putAll(elementsInSameRootTreeQueue.getNodes());
 					HashMap<Node, Node> copyKeywordsForMergedTree = new HashMap<Node, Node>();
 					copyKeywordsForMergedTree.putAll(elementsInSameRootTreeQueue.getKeywords());
 
-					SteinerTree mergedTree = new SteinerTree(
+					OptimalSteinerTree mergedTree = new OptimalSteinerTree(
 							new Node(elementsInSameRootTreeQueue.getRoot().ID, elementsInSameRootTreeQueue.getRoot().kw,
 									elementsInSameRootTreeQueue.getRoot().QoS),
 							copyNodesForMergedTree, copyKeywordsForMergedTree,
@@ -286,7 +316,7 @@ public class QualityConstraintsQuery {
 											removedSubTreeQueue.get(intermediateTreeMerge).put(
 													intermediateTreeMerge.getNumberOfNodes(), intermediateTreeMerge);
 										} else {
-											HashMap<Integer, SteinerTree> numberOfNodesMap = new HashMap<Integer, SteinerTree>();
+											HashMap<Integer, OptimalSteinerTree> numberOfNodesMap = new HashMap<Integer, OptimalSteinerTree>();
 											numberOfNodesMap.put(intermediateTreeMerge.getNumberOfNodes(),
 													intermediateTreeMerge);
 											removedSubTreeQueue.put(intermediateTreeMerge, numberOfNodesMap);
@@ -312,7 +342,7 @@ public class QualityConstraintsQuery {
 									if (invertedRootSteinerTree.containsKey(firstOrder.getRoot())) {
 										invertedRootSteinerTree.get(firstOrder.getRoot()).add(intermediateTreeMerge);
 									} else {
-										ArrayList<SteinerTree> steinerTrees = new ArrayList<SteinerTree>();
+										ArrayList<OptimalSteinerTree> steinerTrees = new ArrayList<OptimalSteinerTree>();
 										steinerTrees.add(intermediateTreeMerge);
 										invertedRootSteinerTree.put(intermediateTreeMerge.getRoot(), steinerTrees);
 									}
@@ -327,6 +357,8 @@ public class QualityConstraintsQuery {
 				}
 			}
 		}
+		long endTime = System.currentTimeMillis();
+		this.timeConsumptionSuccessfulKS3Constraint = endTime - startTime;
 		System.out.println("Constraint search solution status: Infeasible");
 		return false;
 	}
