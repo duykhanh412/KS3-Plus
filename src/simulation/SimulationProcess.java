@@ -56,14 +56,6 @@ public class SimulationProcess {
 									// New Algorithm Result
 									setNewResult.averageResultsAll();
 									srlNew.add(setNewResult);
-
-									// Previous Algorithm Result
-									// String oldFilePath =
-									// ExcelWriter.composeExcelFilePath("Old_Results","Old");
-									// ExcelWriter ewOld = new
-									// ExcelWriter(oldFilePath.toString());
-									// ewOld.write(srlOld);
-
 								}
 							}
 						}
@@ -72,6 +64,13 @@ public class SimulationProcess {
 				}
 			}
 		}
+		
+		// Previous Algorithm Result
+		// String oldFilePath =
+		// ExcelWriter.composeExcelFilePath("Old_Results","Old");
+		// ExcelWriter ewOld = new
+		// ExcelWriter(oldFilePath.toString());
+		// ewOld.write(srlOld);
 		// New Algorithm Result
 		String newFilePath = ExcelWriter.composeExcelFilePath("New_Results", "New");
 		ExcelWriter ewNew = new ExcelWriter(newFilePath);
