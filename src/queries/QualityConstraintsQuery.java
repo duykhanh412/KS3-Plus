@@ -167,10 +167,10 @@ public class QualityConstraintsQuery {
 						copyKeywords, firstOrder.getNumberOfNodes(), firstOrder.getQoS());
 
 				if (intermediateTree.growTree(adjacentNodes.get(i), keywordsMapping)) {
-					// if ((intermediateTree.getNumberOfNodes()
-					// + (keywords.size() -
-					// intermediateTree.getKeywords().size())) <= 2 *
-					// keywords.size()) {
+					 if ((intermediateTree.getNumberOfNodes()
+					 + (keywords.size() -
+					 intermediateTree.getKeywords().size())) <= 2 *
+					 keywords.size()) {
 					intermediateTree.setQoS(adjacentNodes.get(i).QoS);
 					// Check quality constraints
 					int qualityCheck = 0;
@@ -224,7 +224,7 @@ public class QualityConstraintsQuery {
 							resultQueue.add(intermediateTree);
 						}
 					}
-					// }
+					 }
 				}
 			}
 
@@ -297,10 +297,10 @@ public class QualityConstraintsQuery {
 
 					if (!intermediateTreeMerge.equals(mergedTree)) {
 						if (intermediateTreeMerge.mergeTreeWithQualityConstraints(mergedTree)) {
-							// if ((intermediateTreeMerge.getNumberOfNodes()
-							// + (keywords.size() -
-							// intermediateTreeMerge.getKeywords().size())) <= 2
-							// * keywords.size()) {
+							 if ((intermediateTreeMerge.getNumberOfNodes()
+							 + (keywords.size() -
+							 intermediateTreeMerge.getKeywords().size())) <= 2
+							 * keywords.size()) {
 							// // Check quality constraints
 							int qualityCheck = 0;
 							for (int check = 0; check < QoS.length; check++) {
@@ -353,7 +353,7 @@ public class QualityConstraintsQuery {
 							}
 						}
 					}
-					// }
+					 }
 				}
 			}
 		}

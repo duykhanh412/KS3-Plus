@@ -170,45 +170,57 @@ public class OptimalQuery {
 						copyKeywords, firstOrder.getNumberOfNodes(), firstOrder.getQoS());
 
 				if (intermediateTree.growTree(adjacentNodes.get(i), keywordsMapping)) {
-					// if ((intermediateTree.getNumberOfNodes()
-					// + (keywords.size() -
-					// intermediateTree.getKeywords().size())) <= 2 *
-					// keywords.size()) {
-					intermediateTree.setQoS(adjacentNodes.get(i).QoS);
-					// Check quality constraints
-					int qualityCheck = 0;
-					for (int check = 0; check < QoS.length; check++) {
-						if (intermediateTree.getQoS()[check] <= QoS[check])
-							qualityCheck++;
-					}
-					if (qualityCheck == QoS.length) {
-						if (numberOfNodesInfo.containsKey(intermediateTree)) {
-							OptimalSteinerTree test = new OptimalSteinerTree(
-									new Node(numberOfNodesInfo.get(intermediateTree).getRoot().ID,
-											numberOfNodesInfo.get(intermediateTree).getRoot().kw,
-											numberOfNodesInfo.get(intermediateTree).getRoot().QoS),
-									numberOfNodesInfo.get(intermediateTree).getNodes(),
-									numberOfNodesInfo.get(intermediateTree).getKeywords(),
-									numberOfNodesInfo.get(intermediateTree).getNumberOfNodes(),
-									numberOfNodesInfo.get(intermediateTree).getQoS());
+					if ((intermediateTree.getNumberOfNodes()
+							+ (keywords.size() - intermediateTree.getKeywords().size())) <= 2 * keywords.size()) {
+						intermediateTree.setQoS(adjacentNodes.get(i).QoS);
+						// Check quality constraints
+						int qualityCheck = 0;
+						for (int check = 0; check < QoS.length; check++) {
+							if (intermediateTree.getQoS()[check] <= QoS[check])
+								qualityCheck++;
+						}
+						if (qualityCheck == QoS.length) {
+							if (numberOfNodesInfo.containsKey(intermediateTree)) {
+								OptimalSteinerTree test = new OptimalSteinerTree(
+										new Node(numberOfNodesInfo.get(intermediateTree).getRoot().ID,
+												numberOfNodesInfo.get(intermediateTree).getRoot().kw,
+												numberOfNodesInfo.get(intermediateTree).getRoot().QoS),
+										numberOfNodesInfo.get(intermediateTree).getNodes(),
+										numberOfNodesInfo.get(intermediateTree).getKeywords(),
+										numberOfNodesInfo.get(intermediateTree).getNumberOfNodes(),
+										numberOfNodesInfo.get(intermediateTree).getQoS());
 
-							if (intermediateTree.getQoS()[0] < test.getQoS()[0]
-									|| ((intermediateTree.getQoS()[0] == test.getQoS()[0])
-											&& (intermediateTree.getNumberOfNodes() < test.getNumberOfNodes()))) {
-								if (removedSubTreeQueue.containsKey(test)) {
-									removedSubTreeQueue.get(test).put(test.getQoS()[0], test);
-								} else {
-									HashMap<Integer, OptimalSteinerTree> numberOfNodesMap = new HashMap<Integer, OptimalSteinerTree>();
-									numberOfNodesMap.put(test.getQoS()[0], test);
-									removedSubTreeQueue.put(test, numberOfNodesMap);
+								if (intermediateTree.getQoS()[0] < test.getQoS()[0]
+										|| ((intermediateTree.getQoS()[0] == test.getQoS()[0])
+												&& (intermediateTree.getNumberOfNodes() < test.getNumberOfNodes()))) {
+									if (removedSubTreeQueue.containsKey(test)) {
+										removedSubTreeQueue.get(test).put(test.getQoS()[0], test);
+									} else {
+										HashMap<Integer, OptimalSteinerTree> numberOfNodesMap = new HashMap<Integer, OptimalSteinerTree>();
+										numberOfNodesMap.put(test.getQoS()[0], test);
+										removedSubTreeQueue.put(test, numberOfNodesMap);
+									}
+									// subTreeQueue.remove(test);
+									subTreeQueue.add(intermediateTree);
+
+									numberOfNodesInfo.put(intermediateTree, intermediateTree);
+
+									if (invertedRootSteinerTreeWithQuality.containsKey(adjacentNodes.get(i))) {
+										invertedRootSteinerTreeWithQuality.get(adjacentNodes.get(i)).remove(test);
+										invertedRootSteinerTreeWithQuality.get(adjacentNodes.get(i))
+												.add(intermediateTree);
+									} else {
+										ArrayList<OptimalSteinerTree> SteinerTreeWithQualitys = new ArrayList<OptimalSteinerTree>();
+										SteinerTreeWithQualitys.add(intermediateTree);
+										invertedRootSteinerTreeWithQuality.put(adjacentNodes.get(i),
+												SteinerTreeWithQualitys);
+									}
 								}
-								// subTreeQueue.remove(test);
+							} else {
 								subTreeQueue.add(intermediateTree);
-
 								numberOfNodesInfo.put(intermediateTree, intermediateTree);
 
 								if (invertedRootSteinerTreeWithQuality.containsKey(adjacentNodes.get(i))) {
-									invertedRootSteinerTreeWithQuality.get(adjacentNodes.get(i)).remove(test);
 									invertedRootSteinerTreeWithQuality.get(adjacentNodes.get(i)).add(intermediateTree);
 								} else {
 									ArrayList<OptimalSteinerTree> SteinerTreeWithQualitys = new ArrayList<OptimalSteinerTree>();
@@ -217,23 +229,11 @@ public class OptimalQuery {
 											SteinerTreeWithQualitys);
 								}
 							}
-						} else {
-							subTreeQueue.add(intermediateTree);
-							numberOfNodesInfo.put(intermediateTree, intermediateTree);
-
-							if (invertedRootSteinerTreeWithQuality.containsKey(adjacentNodes.get(i))) {
-								invertedRootSteinerTreeWithQuality.get(adjacentNodes.get(i)).add(intermediateTree);
-							} else {
-								ArrayList<OptimalSteinerTree> SteinerTreeWithQualitys = new ArrayList<OptimalSteinerTree>();
-								SteinerTreeWithQualitys.add(intermediateTree);
-								invertedRootSteinerTreeWithQuality.put(adjacentNodes.get(i), SteinerTreeWithQualitys);
+							if (intermediateTree.minimumSteinerTree(keywords)) {
+								resultQueue.add(intermediateTree);
 							}
 						}
-						if (intermediateTree.minimumSteinerTree(keywords)) {
-							resultQueue.add(intermediateTree);
-						}
 					}
-					// }
 				}
 			}
 
@@ -307,68 +307,68 @@ public class OptimalQuery {
 
 					if (!intermediateTreeMerge.equals(mergedTree)) {
 						if (intermediateTreeMerge.mergeTreeWithQualityConstraints(mergedTree)) {
-							// if ((intermediateTreeMerge.getNumberOfNodes()
-							// + (keywords.size() -
-							// intermediateTreeMerge.getKeywords().size())) <= 2
-							// * keywords.size()) {
-							// Check quality constraints
-							int qualityCheck = 0;
-							for (int check = 0; check < QoS.length; check++) {
-								if (intermediateTreeMerge.getQoS()[check] <= QoS[check])
-									qualityCheck++;
-							}
-							if (qualityCheck == QoS.length) {
-								if (numberOfNodesInfo.containsKey(intermediateTreeMerge)) {
-									if (intermediateTreeMerge.getQoS()[0] < numberOfNodesInfo.get(intermediateTreeMerge)
-											.getQoS()[0]
-											|| ((intermediateTreeMerge.getQoS()[0] == numberOfNodesInfo
-													.get(intermediateTreeMerge).getQoS()[0])
-													&& (intermediateTreeMerge.getNumberOfNodes() < numberOfNodesInfo
-															.get(intermediateTreeMerge).getNumberOfNodes()))) {
+							if ((intermediateTreeMerge.getNumberOfNodes()
+									+ (keywords.size() - intermediateTreeMerge.getKeywords().size())) <= 2
+											* keywords.size()) {
+								// Check quality constraints
+								int qualityCheck = 0;
+								for (int check = 0; check < QoS.length; check++) {
+									if (intermediateTreeMerge.getQoS()[check] <= QoS[check])
+										qualityCheck++;
+								}
+								if (qualityCheck == QoS.length) {
+									if (numberOfNodesInfo.containsKey(intermediateTreeMerge)) {
+										if (intermediateTreeMerge.getQoS()[0] < numberOfNodesInfo
+												.get(intermediateTreeMerge).getQoS()[0]
+												|| ((intermediateTreeMerge.getQoS()[0] == numberOfNodesInfo
+														.get(intermediateTreeMerge).getQoS()[0])
+														&& (intermediateTreeMerge.getNumberOfNodes() < numberOfNodesInfo
+																.get(intermediateTreeMerge).getNumberOfNodes()))) {
 
-										if (removedSubTreeQueue.containsKey(intermediateTreeMerge)) {
-											removedSubTreeQueue.get(intermediateTreeMerge).put(
-													intermediateTreeMerge.getNumberOfNodes(), intermediateTreeMerge);
-										} else {
-											HashMap<Integer, OptimalSteinerTree> numberOfNodesMap = new HashMap<Integer, OptimalSteinerTree>();
-											numberOfNodesMap.put(intermediateTreeMerge.getNumberOfNodes(),
-													intermediateTreeMerge);
-											removedSubTreeQueue.put(intermediateTreeMerge, numberOfNodesMap);
+											if (removedSubTreeQueue.containsKey(intermediateTreeMerge)) {
+												removedSubTreeQueue.get(intermediateTreeMerge).put(
+														intermediateTreeMerge.getNumberOfNodes(),
+														intermediateTreeMerge);
+											} else {
+												HashMap<Integer, OptimalSteinerTree> numberOfNodesMap = new HashMap<Integer, OptimalSteinerTree>();
+												numberOfNodesMap.put(intermediateTreeMerge.getNumberOfNodes(),
+														intermediateTreeMerge);
+												removedSubTreeQueue.put(intermediateTreeMerge, numberOfNodesMap);
+											}
+
+											// subTreeQueue.remove(intermediateTreeMerge);
+											subTreeQueue.add(intermediateTreeMerge);
+
+											numberOfNodesInfo.put(intermediateTreeMerge, intermediateTreeMerge);
+
+											invertedRootSteinerTreeWithQuality.get(firstOrder.getRoot())
+													.remove(numberOfNodesInfo.get(intermediateTreeMerge));
+
+											invertedRootSteinerTreeWithQuality.get(firstOrder.getRoot())
+													.add(intermediateTreeMerge);
+											i--;
+											testSize--;
 										}
 
-										// subTreeQueue.remove(intermediateTreeMerge);
+									} else {
 										subTreeQueue.add(intermediateTreeMerge);
-
 										numberOfNodesInfo.put(intermediateTreeMerge, intermediateTreeMerge);
 
-										invertedRootSteinerTreeWithQuality.get(firstOrder.getRoot())
-												.remove(numberOfNodesInfo.get(intermediateTreeMerge));
-
-										invertedRootSteinerTreeWithQuality.get(firstOrder.getRoot())
-												.add(intermediateTreeMerge);
-										i--;
-										testSize--;
+										if (invertedRootSteinerTreeWithQuality.containsKey(firstOrder.getRoot())) {
+											invertedRootSteinerTreeWithQuality.get(firstOrder.getRoot())
+													.add(intermediateTreeMerge);
+										} else {
+											ArrayList<OptimalSteinerTree> SteinerTreeWithQualitys = new ArrayList<OptimalSteinerTree>();
+											SteinerTreeWithQualitys.add(intermediateTreeMerge);
+											invertedRootSteinerTreeWithQuality.put(intermediateTreeMerge.getRoot(),
+													SteinerTreeWithQualitys);
+										}
 									}
-
-								} else {
-									subTreeQueue.add(intermediateTreeMerge);
-									numberOfNodesInfo.put(intermediateTreeMerge, intermediateTreeMerge);
-
-									if (invertedRootSteinerTreeWithQuality.containsKey(firstOrder.getRoot())) {
-										invertedRootSteinerTreeWithQuality.get(firstOrder.getRoot())
-												.add(intermediateTreeMerge);
-									} else {
-										ArrayList<OptimalSteinerTree> SteinerTreeWithQualitys = new ArrayList<OptimalSteinerTree>();
-										SteinerTreeWithQualitys.add(intermediateTreeMerge);
-										invertedRootSteinerTreeWithQuality.put(intermediateTreeMerge.getRoot(),
-												SteinerTreeWithQualitys);
+									if (intermediateTreeMerge.minimumSteinerTree(keywords)) {
+										resultQueue.add(intermediateTreeMerge);
 									}
-								}
-								if (intermediateTreeMerge.minimumSteinerTree(keywords)) {
-									resultQueue.add(intermediateTreeMerge);
 								}
 							}
-							// }
 						}
 					}
 				}

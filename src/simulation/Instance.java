@@ -213,7 +213,7 @@ public class Instance {
 					this.q.QoS, this.oldResult.objectiveValueKS3Constraint)) {
 				this.newResult.isSuccessfulKS3Constraint = true;
 				this.newResult.timeConsumptionSuccessfulKS3Constraint = QoSQ.timeConsumptionSuccessfulKS3Constraint;
-				this.newResult.objectiveValueKS3Constraint += q.objectiveValueKS3Constraint;
+				this.newResult.objectiveValueKS3Constraint += QoSQ.numberOfNodes;
 				this.newResult.isSuccessfulIndividualConstraint = q.isSuccessfulIndividualConstraint;
 				this.numberOfNodesInNewAlgorithms = QoSQ.numberOfNodes;
 			} else {
@@ -226,7 +226,7 @@ public class Instance {
 					this.oldResult.objectiveValueKS3Optimal)) {
 				this.newResult.isSuccessfulKS3Optimal = true;
 				this.newResult.timeConsumptionSuccessfulKS3Optimal = oQ.timeConsumptionSuccessfulKS3Optimal;
-				this.newResult.objectiveValueKS3Optimal += q.objectiveValueKS3Optimal;
+				this.newResult.objectiveValueKS3Optimal += oQ.optimalQualityValue;
 				this.newResult.isSuccessfulIndividualOptimal = q.isSuccessfulIndividualOptimal;
 
 			} else {
