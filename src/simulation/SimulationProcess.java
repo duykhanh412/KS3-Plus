@@ -56,10 +56,14 @@ public class SimulationProcess {
 									// New Algorithm Result
 									setNewResult.averageResultsAll();
 									srlNew.add(setNewResult);
+									
+									String newFilePath = ExcelWriter.composeExcelFilePath("New_Results", "New");
+									ExcelWriter ewNew = new ExcelWriter(newFilePath);
+									ewNew.write(srlNew);
 								}
 							}
 						}
-
+						
 					}
 				}
 			}
@@ -72,9 +76,7 @@ public class SimulationProcess {
 		// ExcelWriter(oldFilePath.toString());
 		// ewOld.write(srlOld);
 		// New Algorithm Result
-		String newFilePath = ExcelWriter.composeExcelFilePath("New_Results", "New");
-		ExcelWriter ewNew = new ExcelWriter(newFilePath);
-		ewNew.write(srlNew);
+		
 	}
 
 	public void runPW() { // run experiments on programmableweb dataset

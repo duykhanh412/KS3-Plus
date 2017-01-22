@@ -5,13 +5,14 @@ import java.util.HashMap;
 
 public class OptimalSteinerTree {
 	private Node root;
-	private HashMap<String, Node> nodes;
+	private HashMap<Node, Node> nodes;
 	private int numberOfNodes;
 	private HashMap<Node, Node> keywords;
 	private HashMap<String, Integer> keywordsString;
 	private int[] qualityConstraints;
 
-	public OptimalSteinerTree(Node root, HashMap<String, Node> nodes, HashMap<Node, Node> keywords, int newNumberOfNodes) {
+	public OptimalSteinerTree(Node root, HashMap<Node, Node> nodes, HashMap<Node, Node> keywords,
+			int newNumberOfNodes) {
 		this.root = root;
 		this.nodes = nodes;
 		this.keywords = keywords;
@@ -22,7 +23,7 @@ public class OptimalSteinerTree {
 		}
 	}
 
-	public OptimalSteinerTree(Node root, HashMap<String, Node> nodes, HashMap<Node, Node> keywords, int newNumberOfNodes,
+	public OptimalSteinerTree(Node root, HashMap<Node, Node> nodes, HashMap<Node, Node> keywords, int newNumberOfNodes,
 			int numQoS) {
 		this.root = root;
 		this.nodes = nodes;
@@ -38,7 +39,7 @@ public class OptimalSteinerTree {
 		}
 	}
 
-	public OptimalSteinerTree(Node root, HashMap<String, Node> nodes, HashMap<Node, Node> keywords, int newNumberOfNodes,
+	public OptimalSteinerTree(Node root, HashMap<Node, Node> nodes, HashMap<Node, Node> keywords, int newNumberOfNodes,
 			int[] QoS) {
 		this.root = root;
 		this.nodes = nodes;
@@ -66,11 +67,11 @@ public class OptimalSteinerTree {
 		return this.root;
 	}
 
-	public void setNodes(HashMap<String, Node> nodes) {
+	public void setNodes(HashMap<Node, Node> nodes) {
 		this.nodes = nodes;
 	}
 
-	public HashMap<String, Node> getNodes() {
+	public HashMap<Node, Node> getNodes() {
 		return this.nodes;
 	}
 
@@ -164,7 +165,7 @@ public class OptimalSteinerTree {
 		if (this.nodes.containsKey(newRoot.kw)) {
 			return false;
 		} else
-			this.nodes.put(this.root.kw, this.root);
+			this.nodes.put(this.root, this.root);
 		this.numberOfNodes++;
 		this.root = null;
 		this.root = new Node(newRoot.ID, newRoot.kw, newRoot.QoS);
@@ -189,7 +190,7 @@ public class OptimalSteinerTree {
 		}
 
 		// Merge two sets of nodes
-		for (String key : mergedTree.getNodes().keySet()) {
+		for (Node key : mergedTree.getNodes().keySet()) {
 			if (!this.nodes.containsKey(key)) {
 				this.nodes.put(key, mergedTree.getNodes().get(key));
 			}
@@ -213,7 +214,8 @@ public class OptimalSteinerTree {
 		}
 
 		// Merge two sets of nodes
-		for (String key : mergedTree.getNodes().keySet()) {
+		for (Node key : mergedTree.getNodes().keySet()) {
+
 			if (!this.nodes.containsKey(key)) {
 				this.nodes.put(key, mergedTree.getNodes().get(key));
 				for (int i = 0; i < this.qualityConstraints.length; i++) {

@@ -14,12 +14,11 @@ public class NormalQuery {
 
 	public boolean normalQuerySeriesB(ArrayList<String> keywords, HashMap<String, ArrayList<Node>> invertedIndexAPIName,
 			HashMap<Node, ArrayList<Node>> adjIndex, int testNumberOfNodes) {
-		System.out.println(keywords);
+//		System.out.println(keywords);
 
+		System.out.println("NORMAL QUERY");
+		
 		Comparator<SteinerTree> comparator = new TreeCostComparator();
-
-		// The first tree taken from the priority queue
-		// SteinerTree firstOrder = new SteinerTree();
 
 		// The priority queue sorted in the increasing order of costs of trees
 		PriorityQueue<SteinerTree> subTreeQueue = new PriorityQueue<SteinerTree>(keywords.size(), comparator);
@@ -38,7 +37,6 @@ public class NormalQuery {
 
 		long startTime = System.currentTimeMillis();
 
-		// boolean answer = false;
 		// Put nodes containing keywords in the queue
 		for (int i = 0; i < keywords.size(); i++) {
 			if (invertedIndexAPIName.containsKey(keywords.get(i))) {
@@ -48,7 +46,7 @@ public class NormalQuery {
 					keywordsInput.put(new Node(listOfKeywordNode.get(j).ID, listOfKeywordNode.get(j).kw),
 							new Node(listOfKeywordNode.get(j).ID, listOfKeywordNode.get(j).kw));
 					Node root = new Node(listOfKeywordNode.get(j).ID, listOfKeywordNode.get(j).kw);
-					SteinerTree initialTrees = new SteinerTree(root, new HashMap<String, Node>(), keywordsInput, 1);
+					SteinerTree initialTrees = new SteinerTree(root, new HashMap<Node, Node>(), keywordsInput, 1);
 					subTreeQueue.add(initialTrees);
 					numberOfNodesInfo.put(initialTrees, initialTrees);
 
@@ -76,7 +74,6 @@ public class NormalQuery {
 					continue;
 				}
 			}
-			// invertedRootSteinerTree.get(firstOrder.getRoot()).remove(firstOrder);
 
 			// Check if the current tree includes all the keywords then return
 			// the result
@@ -88,7 +85,7 @@ public class NormalQuery {
 					System.out.println("The root of the result tree: " + firstResult.getRoot().ID + "-"
 							+ firstResult.getRoot().kw);
 					System.out.println("The nodes of the tree: ");
-					for (String n : firstResult.getNodes().keySet()) {
+					for (Node n : firstResult.getNodes().keySet()) {
 						System.out.println(firstResult.getNodes().get(n).ID + "-" + firstResult.getNodes().get(n).kw);
 					}
 					this.timeConsumptionSuccessfulKS3Normal = endTime - startTime;
@@ -107,7 +104,7 @@ public class NormalQuery {
 
 			// Grow tree
 			for (int i = 0; i < adjacentNodes.size(); i++) {
-				HashMap<String, Node> copyNodes = new HashMap<String, Node>();
+				HashMap<Node, Node> copyNodes = new HashMap<Node, Node>();
 				copyNodes.putAll(firstOrder.getNodes());
 				HashMap<Node, Node> copyKeywords = new HashMap<Node, Node>();
 				copyKeywords.putAll(firstOrder.getKeywords());
@@ -134,7 +131,6 @@ public class NormalQuery {
 									numberOfNodesMap.put(test.getNumberOfNodes(), test);
 									removedSubTreeQueue.put(test, numberOfNodesMap);
 								}
-//								subTreeQueue.remove(test);
 								subTreeQueue.add(intermediateTree);
 
 								numberOfNodesInfo.put(intermediateTree, intermediateTree);
@@ -185,7 +181,7 @@ public class NormalQuery {
 						invertedRootSteinerTree.remove(firstOrder.getRoot());
 						break;
 					}
-					HashMap<String, Node> copyNodes = new HashMap<String, Node>();
+					HashMap<Node, Node> copyNodes = new HashMap<Node, Node>();
 					copyNodes.putAll(firstOrder.getNodes());
 					HashMap<Node, Node> copyKeywords = new HashMap<Node, Node>();
 					copyKeywords.putAll(firstOrder.getKeywords());
@@ -196,7 +192,7 @@ public class NormalQuery {
 
 					SteinerTree elementsInSameRootTreeQueue = test.get(i);
 
-					HashMap<String, Node> copyNodesForMergedTree = new HashMap<String, Node>();
+					HashMap<Node, Node> copyNodesForMergedTree = new HashMap<Node, Node>();
 					copyNodesForMergedTree.putAll(elementsInSameRootTreeQueue.getNodes());
 					HashMap<Node, Node> copyKeywordsForMergedTree = new HashMap<Node, Node>();
 					copyKeywordsForMergedTree.putAll(elementsInSameRootTreeQueue.getKeywords());
@@ -226,7 +222,6 @@ public class NormalQuery {
 											removedSubTreeQueue.put(intermediateTreeMerge, numberOfNodesMap);
 										}
 										
-//										subTreeQueue.remove(intermediateTreeMerge);
 										subTreeQueue.add(intermediateTreeMerge);
 
 										numberOfNodesInfo.put(intermediateTreeMerge, intermediateTreeMerge);
@@ -306,7 +301,7 @@ public class NormalQuery {
 					keywordsInput.put(new Node(listOfKeywordNode.get(j).ID, listOfKeywordNode.get(j).kw),
 							new Node(listOfKeywordNode.get(j).ID, listOfKeywordNode.get(j).kw));
 					Node root = new Node(listOfKeywordNode.get(j).ID, listOfKeywordNode.get(j).kw);
-					SteinerTree initialTrees = new SteinerTree(root, new HashMap<String, Node>(), keywordsInput, 1);
+					SteinerTree initialTrees = new SteinerTree(root, new HashMap<Node, Node>(), keywordsInput, 1);
 					subTreeQueue.add(initialTrees);
 					numberOfNodesInfo.put(initialTrees, initialTrees);
 
@@ -337,7 +332,7 @@ public class NormalQuery {
 					System.out.println("The root of the result tree: " + firstResult.getRoot().ID + "-"
 							+ firstResult.getRoot().kw);
 					System.out.println("The nodes of the tree: ");
-					for (String n : firstResult.getNodes().keySet()) {
+					for (Node n : firstResult.getNodes().keySet()) {
 						System.out.println(firstResult.getNodes().get(n).ID + "-" + firstResult.getNodes().get(n).kw);
 					}
 					this.timeConsumptionSuccessfulKS3Normal = endTime - startTime;
@@ -353,7 +348,7 @@ public class NormalQuery {
 
 			// Grow tree
 			for (int i = 0; i < adjacentNodes.size(); i++) {
-				HashMap<String, Node> copyNodes = new HashMap<String, Node>();
+				HashMap<Node, Node> copyNodes = new HashMap<Node, Node>();
 				copyNodes.putAll(firstOrder.getNodes());
 				HashMap<Node, Node> copyKeywords = new HashMap<Node, Node>();
 				copyKeywords.putAll(firstOrder.getKeywords());
@@ -422,7 +417,7 @@ public class NormalQuery {
 						invertedRootSteinerTree.remove(firstOrder.getRoot());
 						break;
 					}
-					HashMap<String, Node> copyNodes = new HashMap<String, Node>();
+					HashMap<Node, Node> copyNodes = new HashMap<Node, Node>();
 					copyNodes.putAll(firstOrder.getNodes());
 					HashMap<Node, Node> copyKeywords = new HashMap<Node, Node>();
 					copyKeywords.putAll(firstOrder.getKeywords());
@@ -433,7 +428,7 @@ public class NormalQuery {
 
 					SteinerTree elementsInSameRootTreeQueue = test.get(i);
 
-					HashMap<String, Node> copyNodesForMergedTree = new HashMap<String, Node>();
+					HashMap<Node, Node> copyNodesForMergedTree = new HashMap<Node, Node>();
 					copyNodesForMergedTree.putAll(elementsInSameRootTreeQueue.getNodes());
 					HashMap<Node, Node> copyKeywordsForMergedTree = new HashMap<Node, Node>();
 					copyKeywordsForMergedTree.putAll(elementsInSameRootTreeQueue.getKeywords());
@@ -527,7 +522,7 @@ public class NormalQuery {
 					keywordsInput.put(new Node(listOfKeywordNode.get(j).ID, listOfKeywordNode.get(j).kw),
 							new Node(listOfKeywordNode.get(j).ID, listOfKeywordNode.get(j).kw));
 					Node root = new Node(listOfKeywordNode.get(j).ID, listOfKeywordNode.get(j).kw);
-					SteinerTree initialTrees = new SteinerTree(root, new HashMap<String, Node>(), keywordsInput, 1);
+					SteinerTree initialTrees = new SteinerTree(root, new HashMap<Node, Node>(), keywordsInput, 1);
 					subTreeQueue.add(initialTrees);
 					numberOfNodesInfo.put(initialTrees, initialTrees);
 
@@ -552,7 +547,7 @@ public class NormalQuery {
 
 			// Grow tree
 			for (int i = 0; i < adjacentNodes.size(); i++) {
-				HashMap<String, Node> copyNodes = new HashMap<String, Node>();
+				HashMap<Node, Node> copyNodes = new HashMap<Node, Node>();
 				copyNodes.putAll(firstOrder.getNodes());
 				HashMap<Node, Node> copyKeywords = new HashMap<Node, Node>();
 				copyKeywords.putAll(firstOrder.getKeywords());
@@ -603,7 +598,7 @@ public class NormalQuery {
 							System.out.println("The root of the result tree: " + intermediateTree.getRoot().ID + "-"
 									+ intermediateTree.getRoot().kw);
 							System.out.println("The nodes of the tree: ");
-							for (String n : intermediateTree.getNodes().keySet()) {
+							for (Node n : intermediateTree.getNodes().keySet()) {
 								System.out.println(intermediateTree.getNodes().get(n).ID + "-" + intermediateTree.getNodes().get(n).kw);
 							}
 							this.timeConsumptionSuccessfulKS3Normal = endTime - startTime;
@@ -634,7 +629,7 @@ public class NormalQuery {
 						invertedRootSteinerTree.remove(firstOrder.getRoot());
 						break;
 					}
-					HashMap<String, Node> copyNodes = new HashMap<String, Node>();
+					HashMap<Node, Node> copyNodes = new HashMap<Node, Node>();
 					copyNodes.putAll(firstOrder.getNodes());
 					HashMap<Node, Node> copyKeywords = new HashMap<Node, Node>();
 					copyKeywords.putAll(firstOrder.getKeywords());
@@ -645,7 +640,7 @@ public class NormalQuery {
 
 					SteinerTree elementsInSameRootTreeQueue = test.get(i);
 
-					HashMap<String, Node> copyNodesForMergedTree = new HashMap<String, Node>();
+					HashMap<Node, Node> copyNodesForMergedTree = new HashMap<Node, Node>();
 					copyNodesForMergedTree.putAll(elementsInSameRootTreeQueue.getNodes());
 					HashMap<Node, Node> copyKeywordsForMergedTree = new HashMap<Node, Node>();
 					copyKeywordsForMergedTree.putAll(elementsInSameRootTreeQueue.getKeywords());
@@ -693,7 +688,7 @@ public class NormalQuery {
 									System.out.println("The root of the result tree: " + intermediateTreeMerge.getRoot().ID + "-"
 											+ intermediateTreeMerge.getRoot().kw);
 									System.out.println("The nodes of the tree: ");
-									for (String n : intermediateTreeMerge.getNodes().keySet()) {
+									for (Node n : intermediateTreeMerge.getNodes().keySet()) {
 										System.out.println(intermediateTreeMerge.getNodes().get(n).ID + "-" + intermediateTreeMerge.getNodes().get(n).kw);
 									}
 									this.timeConsumptionSuccessfulKS3Normal = endTime - startTime;

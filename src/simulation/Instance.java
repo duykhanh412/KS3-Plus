@@ -50,103 +50,104 @@ public class Instance {
 		dg = new DataGraph(dig, this.setting);
 		System.out.println(
 				"==============================Verify Number of Nodes and Edges==============================");
-		System.out.println("Number of Nodes: " + dg.nodeIndex.size());
-		System.out.println("Number of Edges: " + dg.edgeIndex.size());
+		System.out.println("Number of Edges: " + dg.nodeIndex.size());
+		System.out.println("Number of Nodes: " + dg.edgeIndex.size());
 
 		// Write the data graph to intermediate files
-//		PrintWriter writer;
-//		try {
-//			writer = new PrintWriter(Config.pathToSecondSerieDatasets + "Numnode-" + numNodes + "-Numedge-"
-//					+ edgeCoefficient + "-Numkeyword-" + numKeywords + "-Keyworddistance-" + keywordDistance
-//					+ "-numRun-" + numRun + ".txt", "UTF-8");
-//			for (Node n : dg.adjIndex.keySet()) {
-//				writer.print(n.ID + "-" + n.kw);
-//				writer.print(":");
-//				String prefix = "";
-//				for (int i = 0; i < dg.adjIndex.get(n).size(); i++) {
-//					writer.print(prefix);
-//					writer.print(dg.adjIndex.get(n).get(i).ID + "-" + dg.adjIndex.get(n).get(i).kw + "-");
-//					String prefix2 = "";
-//					for (int j = 0; j < dg.adjIndex.get(n).get(i).QoS.length; j++) {
-//						writer.print(prefix2);
-//						writer.print(dg.adjIndex.get(n).get(i).QoS[j]);
-//						prefix2 = ";";
-//					}
-//					prefix = ",";
-//				}
-//				writer.println();
-//			}
-//			writer.close();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (UnsupportedEncodingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		PrintWriter writer2;
-//		try {
-//			writer2 = new PrintWriter(Config.pathToSecondSerieDatasets + "Numnode-" + numNodes + "-Numedge-"
-//					+ edgeCoefficient + "-Numkeyword-" + numKeywords + "-Keyworddistance-" + keywordDistance
-//					+ "-Undirected-numRun-" + numRun + ".txt", "UTF-8");
-//			for (Node n : dg.adjIndex.keySet()) {
-//				writer2.print(n.ID + "-" + n.kw);
-//				writer2.print(":");
-//				String prefix = "";
-//				for (int i = 0; i < dg.undirectedAdjIndex.get(n).size(); i++) {
-//					writer2.print(prefix);
-//					writer2.print(dg.undirectedAdjIndex.get(n).get(i).ID + "-" + dg.undirectedAdjIndex.get(n).get(i).kw
-//							+ "-");
-//					String prefix2 = "";
-//					for (int j = 0; j < dg.undirectedAdjIndex.get(n).get(i).QoS.length; j++) {
-//						writer2.print(prefix2);
-//						writer2.print(dg.undirectedAdjIndex.get(n).get(i).QoS[j]);
-//						prefix2 = ";";
-//					}
-//					prefix = ",";
-//				}
-//				writer2.println();
-//			}
-//			writer2.close();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (UnsupportedEncodingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		PrintWriter writer1;
-//		try {
-//			writer1 = new PrintWriter(Config.pathToSecondSerieDatasets + "IntertedIndexAPI" + "-Numedge-"
-//					+ edgeCoefficient + "-NumRun-" + numRun + ".txt", "UTF-8");
-//			for (String n : dg.invertedIndex.keySet()) {
-//				writer1.print(n);
-//				writer1.print(":");
-//				String prefix = "";
-//				ArrayList<Node> test = dg.invertedIndex.get(n);
-//				for (int i = 0; i < test.size(); i++) {
-//					writer1.print(prefix);
-//					writer1.print(test.get(i).ID + "-" + test.get(i).kw + "-");
-//					String prefix2 = "";
-//					for (int j = 0; j < test.get(i).QoS.length; j++) {
-//						writer1.print(prefix2);
-//						writer1.print(test.get(i).QoS[j]);
-//						prefix2 = ";";
-//					}
-//					prefix = ",";
-//				}
-//				writer1.println();
-//			}
-//			writer1.close();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (UnsupportedEncodingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter(Config.pathToSecondSerieDatasets + "Numnode-" + numNodes + "-Numedge-"
+					+ edgeCoefficient + "-Numkeyword-" + numKeywords + "-Keyworddistance-" + keywordDistance
+					+ "-numRun-" + numRun + ".txt", "UTF-8");
+			for (Node n : dg.adjIndex.keySet()) {
+				writer.print(n.ID + "{" + n.kw);
+				writer.print(":");
+				String prefix = "";
+				for (int i = 0; i < dg.adjIndex.get(n).size(); i++) {
+					writer.print(prefix);
+					writer.print(dg.adjIndex.get(n).get(i).ID + "{" + dg.adjIndex.get(n).get(i).kw + "{");
+					String prefix2 = "";
+					for (int j = 0; j < dg.adjIndex.get(n).get(i).QoS.length; j++) {
+						writer.print(prefix2);
+						writer.print(dg.adjIndex.get(n).get(i).QoS[j]);
+						prefix2 = ";";
+					}
+					prefix = ",";
+				}
+				writer.println();
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		PrintWriter writer2;
+		try {
+			writer2 = new PrintWriter(Config.pathToSecondSerieDatasets + "Numnode-" + numNodes + "-Numedge-"
+					+ edgeCoefficient + "-Numkeyword-" + numKeywords + "-Keyworddistance-" + keywordDistance
+					+ "-Undirected-numRun-" + numRun + ".txt", "UTF-8");
+			for (Node n : dg.adjIndex.keySet()) {
+				writer2.print(n.ID + "{" + n.kw);
+				writer2.print(":");
+				String prefix = "";
+				for (int i = 0; i < dg.undirectedAdjIndex.get(n).size(); i++) {
+					writer2.print(prefix);
+					writer2.print(dg.undirectedAdjIndex.get(n).get(i).ID + "{" + dg.undirectedAdjIndex.get(n).get(i).kw
+							+ "{");
+					String prefix2 = "";
+					for (int j = 0; j < dg.undirectedAdjIndex.get(n).get(i).QoS.length; j++) {
+						writer2.print(prefix2);
+						writer2.print(dg.undirectedAdjIndex.get(n).get(i).QoS[j]);
+						prefix2 = ";";
+					}
+					prefix = ",";
+				}
+				writer2.println();
+			}
+			writer2.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		PrintWriter writer1;
+		try {
+			writer1 = new PrintWriter(Config.pathToSecondSerieDatasets + "IntertedIndexAPI" + "-Numnode-" + numNodes + "-Numedge-"
+					+ edgeCoefficient + "-Numkeyword-" + numKeywords + "-Keyworddistance-" + keywordDistance
+					+ "-numRun-" + numRun + ".txt", "UTF-8");
+			for (String n : dg.invertedIndex.keySet()) {
+				writer1.print(n);
+				writer1.print(":");
+				String prefix = "";
+				ArrayList<Node> test = dg.invertedIndex.get(n);
+				for (int i = 0; i < test.size(); i++) {
+					writer1.print(prefix);
+					writer1.print(test.get(i).ID + "{" + test.get(i).kw + "{");
+					String prefix2 = "";
+					for (int j = 0; j < test.get(i).QoS.length; j++) {
+						writer1.print(prefix2);
+						writer1.print(test.get(i).QoS[j]);
+						prefix2 = ";";
+					}
+					prefix = ",";
+				}
+				writer1.println();
+			}
+			writer1.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		q = new Query(dg, this.setting);
 		// q.printKeywords();
 	}
@@ -208,7 +209,7 @@ public class Instance {
 			}
 		}
 		if (Config.RUNNING_KS3_CONSTRAINT) {
-			QualityConstraintsQuery QoSQ = new QualityConstraintsQuery();
+			QualityConstraintsQuery_NewVersion QoSQ = new QualityConstraintsQuery_NewVersion();
 			if (QoSQ.qualityConstraintsQuerySeriesB(keywords, this.dg.invertedIndex, this.dg.undirectedAdjIndex,
 					this.q.QoS, this.oldResult.objectiveValueKS3Constraint)) {
 				this.newResult.isSuccessfulKS3Constraint = true;

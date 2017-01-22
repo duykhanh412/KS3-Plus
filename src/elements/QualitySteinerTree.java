@@ -1,9 +1,10 @@
 package elements;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
-public class SteinerTree {
+public class QualitySteinerTree {
 	private Node root;
 	private HashMap<Node, Node> nodes;
 	private int numberOfNodes;
@@ -11,7 +12,7 @@ public class SteinerTree {
 	private HashMap<String, Integer> keywordsString;
 	private int[] qualityConstraints;
 
-	public SteinerTree(Node root, HashMap<Node, Node> nodes, HashMap<Node, Node> keywords, int newNumberOfNodes) {
+	public QualitySteinerTree(Node root, HashMap<Node, Node> nodes, HashMap<Node, Node> keywords, int newNumberOfNodes) {
 		this.root = root;
 		this.nodes = nodes;
 		this.keywords = keywords;
@@ -22,7 +23,7 @@ public class SteinerTree {
 		}
 	}
 
-	public SteinerTree(Node root, HashMap<Node, Node> nodes, HashMap<Node, Node> keywords, int newNumberOfNodes,
+	public QualitySteinerTree(Node root, HashMap<Node, Node> nodes, HashMap<Node, Node> keywords, int newNumberOfNodes,
 			int numQoS) {
 		this.root = root;
 		this.nodes = nodes;
@@ -38,7 +39,7 @@ public class SteinerTree {
 		}
 	}
 
-	public SteinerTree(Node root, HashMap<Node, Node> nodes, HashMap<Node, Node> keywords, int newNumberOfNodes,
+	public QualitySteinerTree(Node root, HashMap<Node, Node> nodes, HashMap<Node, Node> keywords, int newNumberOfNodes,
 			int[] QoS) {
 		this.root = root;
 		this.nodes = nodes;
@@ -54,7 +55,7 @@ public class SteinerTree {
 		}
 	}
 
-	public SteinerTree() {
+	public QualitySteinerTree() {
 
 	}
 
@@ -117,7 +118,9 @@ public class SteinerTree {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((keywordsString == null) ? 0 : keywordsString.hashCode());
+		result = prime * result + ((keywords == null) ? 0 : keywords.hashCode());
+		result = prime * result + ((nodes == null) ? 0 : nodes.hashCode());
+		result = prime * result + Arrays.hashCode(qualityConstraints);
 		result = prime * result + ((root == null) ? 0 : root.hashCode());
 		return result;
 	}
@@ -130,11 +133,18 @@ public class SteinerTree {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SteinerTree other = (SteinerTree) obj;
-		if (keywordsString == null) {
-			if (other.keywordsString != null)
+		QualitySteinerTree other = (QualitySteinerTree) obj;
+		if (keywords == null) {
+			if (other.keywords != null)
 				return false;
-		} else if (!keywordsString.equals(other.keywordsString))
+		} else if (!keywords.equals(other.keywords))
+			return false;
+		if (nodes == null) {
+			if (other.nodes != null)
+				return false;
+		} else if (!nodes.equals(other.nodes))
+			return false;
+		if (!Arrays.equals(qualityConstraints, other.qualityConstraints))
 			return false;
 		if (root == null) {
 			if (other.root != null)
@@ -182,7 +192,7 @@ public class SteinerTree {
 		return true;
 	}
 
-	public boolean mergeTree(SteinerTree mergedTree) {
+	public boolean mergeTree(QualitySteinerTree mergedTree) {
 
 		if (!checkKeywords(mergedTree.getKeywords())) {
 			return false;
@@ -206,7 +216,7 @@ public class SteinerTree {
 		return true;
 	}
 
-	public boolean mergeTreeWithQualityConstraints(SteinerTree mergedTree) {
+	public boolean mergeTreeWithQualityConstraints(QualitySteinerTree mergedTree) {
 
 		if (!checkKeywords(mergedTree.getKeywords())) {
 			return false;
