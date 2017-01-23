@@ -153,22 +153,22 @@ public class QualityConstraintsQuery_NewVersion {
 			// the result
 			if (firstOrder.minimumSteinerTree(keywords)) {
 				long endTime = System.currentTimeMillis();
-				System.out.println(
-						"The root of the result tree: " + firstOrder.getRoot().ID + "-" + firstOrder.getRoot().kw);
-				System.out.println("The nodes of the tree: ");
-				for (Node n : firstOrder.getNodes().keySet()) {
-					System.out.println(firstOrder.getNodes().get(n).ID + "-" + firstOrder.getNodes().get(n).kw);
-				}
+//				System.out.println(
+//						"The root of the result tree: " + firstOrder.getRoot().ID + "-" + firstOrder.getRoot().kw);
+//				System.out.println("The nodes of the tree: ");
+//				for (Node n : firstOrder.getNodes().keySet()) {
+//					System.out.println(firstOrder.getNodes().get(n).ID + "-" + firstOrder.getNodes().get(n).kw);
+//				}
 				this.timeConsumptionSuccessfulKS3Constraint = endTime - startTime;
 				this.numberOfNodes = firstOrder.getNumberOfNodes();
-				System.out.println("The total computation time: " + (endTime - startTime));
-				String subprefix = "";
-				System.out.println("The final quality of the tree: ");
-				for (int i = 0; i < firstOrder.getQoS().length; i++) {
-					System.out.print(subprefix + " " + firstOrder.getQoS()[i]);
-					subprefix = ",";
-				}
-				System.out.println();
+//				System.out.println("The total computation time: " + (endTime - startTime));
+//				String subprefix = "";
+//				System.out.println("The final quality of the tree: ");
+//				for (int i = 0; i < firstOrder.getQoS().length; i++) {
+//					System.out.print(subprefix + " " + firstOrder.getQoS()[i]);
+//					subprefix = ",";
+//				}
+//				System.out.println();
 				return true;
 			}
 

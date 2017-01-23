@@ -82,19 +82,19 @@ public class NormalQuery {
 				SteinerTree firstResult = resultQueue.peek();
 				if (firstOrder.getNumberOfNodes() >= firstResult.getNumberOfNodes()) {
 					long endTime = System.currentTimeMillis();
-					System.out.println("The root of the result tree: " + firstResult.getRoot().ID + "-"
-							+ firstResult.getRoot().kw);
-					System.out.println("The nodes of the tree: ");
-					for (Node n : firstResult.getNodes().keySet()) {
-						System.out.println(firstResult.getNodes().get(n).ID + "-" + firstResult.getNodes().get(n).kw);
-					}
+//					System.out.println("The root of the result tree: " + firstResult.getRoot().ID + "-"
+//							+ firstResult.getRoot().kw);
+//					System.out.println("The nodes of the tree: ");
+//					for (Node n : firstResult.getNodes().keySet()) {
+//						System.out.println(firstResult.getNodes().get(n).ID + "-" + firstResult.getNodes().get(n).kw);
+//					}
 					this.timeConsumptionSuccessfulKS3Normal = endTime - startTime;
 					this.numberOfNodes = firstResult.getNumberOfNodes();
 
-					System.out.println("The total computation time: " + (endTime - startTime));
-					if (this.numberOfNodes != testNumberOfNodes) {
-						System.out.println("One of the result is wrong");
-					}
+//					System.out.println("The total computation time: " + (endTime - startTime));
+//					if (this.numberOfNodes != testNumberOfNodes) {
+//						System.out.println("One of the result is wrong");
+//					}
 					return true;
 				}
 

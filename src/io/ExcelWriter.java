@@ -41,7 +41,7 @@ public class ExcelWriter {
 		// write individual instance result to excel file, one set for one sheet
 		for (int j = 0; j < srl.size(); ++j) {
 			SetResult sr = srl.get(j);
-			String sheetName = "N" + sr.numNodes + "-EC" + sr.edgeCoefficient + "-PC" + sr.pCoefficient + "-K"
+			String sheetName = "N" + sr.numNodes + "-E" + sr.edgeCoefficient + "-PC" + sr.pCoefficient + "-K"
 					+ sr.numKeywords + "-KD" + sr.keywordDistance + "-Q" + sr.numQoS + "-D" + sr.qdCoefficient; // generate
 																												// name
 																												// of
@@ -157,7 +157,7 @@ public class ExcelWriter {
 			cFactor = cFactors.get(0);
 			if (cFactor == "N") {
 				cFactor = "Number of Nodes";
-			} else if (cFactor == "EC") {
+			} else if (cFactor == "E") {
 				cFactor = "Edge Coefficient";
 			} else if (cFactor == "P") {
 				cFactor = "P Coefficient";
@@ -194,7 +194,7 @@ public class ExcelWriter {
 				cFactor = cFactors.get(0);
 				if (cFactor == "N") {
 					row.createCell(0).setCellValue(Config.MIN_NODES + i * 1000);
-				} else if (cFactor == "EC") {
+				} else if (cFactor == "E") {
 					row.createCell(0).setCellValue(Config.MIN_EDGE_COEFFICIENT + i * 0.5);
 				} else if (cFactor == "PC") {
 					row.createCell(0).setCellValue(Config.MIN_P_COEFFICIENT + i * 0.5);
@@ -210,7 +210,7 @@ public class ExcelWriter {
 				for (int j = 0; j < cFactors.size(); ++j) {
 					if (cFactors.get(j) == "N") {
 						value += Config.MIN_NODES + i * 100;
-					} else if (cFactors.get(j) == "EC") {
+					} else if (cFactors.get(j) == "E") {
 						value += Config.MIN_EDGE_COEFFICIENT + i * 0.5;
 					} else if (cFactors.get(j) == "PC") {
 						value += Config.MIN_P_COEFFICIENT + i * 0.5;
@@ -255,7 +255,7 @@ public class ExcelWriter {
 				cFactor = cFactors.get(0);
 				if (cFactor == "N") {
 					row.createCell(0).setCellValue(Config.MIN_NODES + i * 1000);
-				} else if (cFactor == "EC") {
+				} else if (cFactor == "E") {
 					row.createCell(0).setCellValue(Config.MIN_EDGE_COEFFICIENT + i * 0.5);
 				} else if (cFactor == "PC") {
 					row.createCell(0).setCellValue(Config.MIN_P_COEFFICIENT + i * 0.5);
@@ -271,7 +271,7 @@ public class ExcelWriter {
 				for (int j = 0; j < cFactors.size(); ++j) {
 					if (cFactors.get(j) == "N") {
 						value += Config.MIN_NODES + i * 100;
-					} else if (cFactors.get(j) == "EC") {
+					} else if (cFactors.get(j) == "E") {
 						value += Config.MIN_EDGE_COEFFICIENT + i * 0.5;
 					} else if (cFactors.get(j) == "PC") {
 						value += Config.MIN_P_COEFFICIENT + i * 0.5;
@@ -313,7 +313,7 @@ public class ExcelWriter {
 				cFactor = cFactors.get(0);
 				if (cFactor == "N") {
 					row.createCell(0).setCellValue(Config.MIN_NODES + i * 1000);
-				} else if (cFactor == "EC") {
+				} else if (cFactor == "E") {
 					row.createCell(0).setCellValue(Config.MIN_EDGE_COEFFICIENT + i * 0.5);
 				} else if (cFactor == "PC") {
 					row.createCell(0).setCellValue(Config.MIN_P_COEFFICIENT + i * 0.5);
@@ -329,7 +329,7 @@ public class ExcelWriter {
 				for (int j = 0; j < cFactors.size(); ++j) {
 					if (cFactors.get(j) == "N") {
 						value += Config.MIN_NODES + i * 100;
-					} else if (cFactors.get(j) == "EC") {
+					} else if (cFactors.get(j) == "E") {
 						value += Config.MIN_EDGE_COEFFICIENT + i * 0.5;
 					} else if (cFactors.get(j) == "PC") {
 						value += Config.MIN_P_COEFFICIENT + i * 0.5;
@@ -545,7 +545,7 @@ public class ExcelWriter {
 		if (Config.MIN_EDGE_COEFFICIENT != Config.MAX_EDGE_COEFFICIENT) {
 			ecPart = "ECX";
 		} else {
-			ecPart = "EC" + Config.MIN_EDGE_COEFFICIENT;
+			ecPart = "E" + Config.MIN_EDGE_COEFFICIENT;
 		}
 		if (Config.MIN_P_COEFFICIENT != Config.MAX_P_COEFFICIENT) {
 			pcPart = "PCX";
