@@ -12,6 +12,7 @@ import tools.StdOut;
 import elements.DataGraph;
 import elements.Node;
 import elements.Query;
+import interfaceclass.QueryType;
 
 public class Instance {
 	DataGraph dg;
@@ -48,10 +49,10 @@ public class Instance {
 
 		Digraph dig = DigraphGenerator.defaultDigraph(this.setting);
 		dg = new DataGraph(dig, this.setting);
-//		System.out.println(
-//				"==============================Verify Number of Nodes and Edges==============================");
-//		System.out.println("Number of Edges: " + dg.nodeIndex.size());
-//		System.out.println("Number of Nodes: " + dg.edgeIndex.size());
+		System.out.println(
+				"==============================Verify Number of Nodes and Edges==============================");
+		System.out.println("Number of Edges: " + dg.nodeIndex.size());
+		System.out.println("Number of Nodes: " + dg.edgeIndex.size());
 
 		// Write the data graph to intermediate files
 //		PrintWriter writer;
@@ -192,9 +193,6 @@ public class Instance {
 
 	public InstanceResult runNewAlgorithm() {
 		ArrayList<String> keywords = this.q.keywords;
-
-		// nq.NormalQuerySeriesB(keywords, this.dg.invertedIndex,
-		// this.dg.adjIndex);
 		if (Config.RUNNING_KS3_NORMAL) {
 			NormalQuery nq = new NormalQuery();
 			if (nq.normalQuerySeriesB(keywords, this.dg.invertedIndex, this.dg.undirectedAdjIndex,
@@ -215,7 +213,7 @@ public class Instance {
 				this.newResult.isSuccessfulKS3Constraint = true;
 				this.newResult.timeConsumptionSuccessfulKS3Constraint = QoSQ.timeConsumptionSuccessfulKS3Constraint;
 				this.newResult.objectiveValueKS3Constraint += QoSQ.numberOfNodes;
-				this.newResult.isSuccessfulIndividualConstraint = q.isSuccessfulIndividualConstraint;
+				this.newResult.isSuccessfulIndividualConstraint = QoSQ.isSuccessfulIndividualConstraint;
 				this.numberOfNodesInNewAlgorithms = QoSQ.numberOfNodes;
 			} else {
 				this.newResult.isSuccessfulKS3Constraint = false;
@@ -228,7 +226,7 @@ public class Instance {
 				this.newResult.isSuccessfulKS3Optimal = true;
 				this.newResult.timeConsumptionSuccessfulKS3Optimal = oQ.timeConsumptionSuccessfulKS3Optimal;
 				this.newResult.objectiveValueKS3Optimal += oQ.optimalQualityValue;
-				this.newResult.isSuccessfulIndividualOptimal = q.isSuccessfulIndividualOptimal;
+				this.newResult.isSuccessfulIndividualOptimal = oQ.isSuccessfulIndividualOptimal;
 
 			} else {
 				this.newResult.isSuccessfulKS3Optimal = false;

@@ -1,7 +1,7 @@
 package simulation;
 
 public class Config {
-	public static int NUM_RUNS = 10000;
+	public static int NUM_RUNS = 100;
 
 	public static int MIN_NODES = 2000; // Min:10
 	public static int MAX_NODES = 2000; // Max:1000
@@ -22,16 +22,16 @@ public class Config {
 	public static double MAX_P_COEFFICIENT = 1; // Max: 3.0 for creating random
 												// data graph
 
-	public static int MIN_NUM_QOS = 1;
-	public static int MAX_NUM_QOS = 10;
+	public static int MIN_NUM_QOS = 2;
+	public static int MAX_NUM_QOS = 2;
 	public static int MIN_DIFF_COEFF = 20;
 	public static int MAX_DIFF_COEFF = 20; // 10-100, the higher, the harder
 	public static int QOS_LOWER_BOUND = 0;
 	public static int QOS_UPPER_BOUND = 100;
 
 	public static boolean RUNNING_KS3_NORMAL = true;
-	public static boolean RUNNING_KS3_CONSTRAINT = true;
-	public static boolean RUNNING_KS3_OPTIMAL = true;
+	public static boolean RUNNING_KS3_CONSTRAINT = false;
+	public static boolean RUNNING_KS3_OPTIMAL = false;
 
 	public static String[] ALL_KEYWORDS = new String[] { "USDAData", "GBNIRHolidayDates", "CasUsers", "interop2",
 			"ehmmpfamService", "WSDBFetchServerLegacyService", "DOTSPackageTracking", "CommandService",

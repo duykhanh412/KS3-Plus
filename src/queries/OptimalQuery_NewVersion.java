@@ -5,24 +5,24 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
+import elements.Node;
+import elements.OptimalSteinerTree;
 import other.OptimalQueueComparator;
-import elements.*;
 
-public class OptimalQuery {
+public class OptimalQuery_NewVersion {
 	public long timeConsumptionSuccessfulKS3Optimal;
 	public double optimalQualityValue;
-	public boolean isSuccessfulIndividualOptimal;
 
 	public boolean optimalQuerySeriesB(ArrayList<String> keywords,
 			HashMap<String, ArrayList<Node>> invertedIndexAPIName, HashMap<Node, ArrayList<Node>> adjIndex, int[] QoS,
 			double optimalQualityValue) {
-//		System.out.println(keywords);
-//		String prefix = "";
-//		for (int i = 0; i < QoS.length; i++) {
-//			System.out.print(prefix + " " + QoS[i]);
-//			prefix = ",";
-//		}
-//		System.out.println();
+		System.out.println(keywords);
+		String prefix = "";
+		for (int i = 0; i < QoS.length; i++) {
+			System.out.print(prefix + " " + QoS[i]);
+			prefix = ",";
+		}
+		System.out.println();
 
 		System.out.println("OPTIMAL QUERY");
 
@@ -127,30 +127,26 @@ public class OptimalQuery {
 			// the result
 			if (firstOrder.minimumSteinerTree(keywords)) {
 				long endTime = System.currentTimeMillis();
-//				System.out.println(
-//						"The root of the result tree: " + firstOrder.getRoot().ID + "-" + firstOrder.getRoot().kw);
-//				System.out.println("The nodes of the tree: ");
-//				for (Node n : firstOrder.getNodes().keySet()) {
-//					System.out.println(firstOrder.getNodes().get(n).ID + "-" + firstOrder.getNodes().get(n).kw);
-//				}
-//				System.out.println("Number of nodes, optimal: " + firstOrder.getNumberOfNodes());
+				System.out.println(
+						"The root of the result tree: " + firstOrder.getRoot().ID + "-" + firstOrder.getRoot().kw);
+				System.out.println("The nodes of the tree: ");
+				for (Node n : firstOrder.getNodes().keySet()) {
+					System.out.println(firstOrder.getNodes().get(n).ID + "-" + firstOrder.getNodes().get(n).kw);
+				}
+				System.out.println("Number of nodes, optimal: " + firstOrder.getNumberOfNodes());
 				this.timeConsumptionSuccessfulKS3Optimal = endTime - startTime;
 				this.optimalQualityValue = (double) firstOrder.getQoS()[0];
-				if (firstOrder.getNumberOfNodes() != 2)
-					this.isSuccessfulIndividualOptimal = false;
-				else
-					this.isSuccessfulIndividualOptimal = true;
-//				System.out.println("The total computation time: " + (endTime - startTime));
-//				System.out.println("The optimal objective value: " + this.optimalQualityValue);
-//				if (this.optimalQualityValue != optimalQualityValue) {
-//					System.out.println("One of the result is wrong");
-//				}
-//				String subprefix = "";
-//				System.out.println("The final quality of the tree: ");
-//				for (int i = 0; i < firstOrder.getQoS().length; i++) {
-//					System.out.print(subprefix + " " + firstOrder.getQoS()[i]);
-//					subprefix = ",";
-//				}
+				System.out.println("The total computation time: " + (endTime - startTime));
+				System.out.println("The optimal objective value: " + this.optimalQualityValue);
+				if (this.optimalQualityValue != optimalQualityValue) {
+					System.out.println("One of the result is wrong");
+				}
+				String subprefix = "";
+				System.out.println("The final quality of the tree: ");
+				for (int i = 0; i < firstOrder.getQoS().length; i++) {
+					System.out.print(subprefix + " " + firstOrder.getQoS()[i]);
+					subprefix = ",";
+				}
 				return true;
 			}
 

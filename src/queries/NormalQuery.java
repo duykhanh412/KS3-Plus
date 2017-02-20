@@ -263,7 +263,7 @@ public class NormalQuery {
 	}
 
 	public boolean normalQueryPW(ArrayList<String> keywords, HashMap<String, ArrayList<Node>> invertedIndexAPIName,
-			HashMap<Node, ArrayList<Node>> adjIndex) {
+			HashMap<Node, ArrayList<Node>> adjIndex, ArrayList<String> orignialSBS) {
 
 		if (keywords.size() == 0) {
 			System.out.println("The input keywords are nod valid");
@@ -271,15 +271,14 @@ public class NormalQuery {
 		}
 		System.out.println(keywords);
 
-		Comparator<SteinerTree> comparator = (Comparator<SteinerTree>) new TreeCostComparator();
-
-		// The first tree taken from the priority queue
-		// SteinerTree firstOrder = new SteinerTree();
+		Comparator<SteinerTree> comparator = new TreeCostComparator();
 
 		// The priority queue sorted in the increasing order of costs of trees
 		PriorityQueue<SteinerTree> subTreeQueue = new PriorityQueue<SteinerTree>(keywords.size(), comparator);
 
 		PriorityQueue<SteinerTree> resultQueue = new PriorityQueue<SteinerTree>(keywords.size(), comparator);
+		
+		HashMap<SteinerTree, HashMap<Integer, SteinerTree>> removedSubTreeQueue = new HashMap<SteinerTree, HashMap<Integer, SteinerTree>>();
 		
 		// Intermediate hash map to save the information of number of nodes in a
 		// tree
@@ -291,7 +290,9 @@ public class NormalQuery {
 
 		long startTime = System.currentTimeMillis();
 
-		// boolean answer = false;
+//		for(int i = 0; i < orignialSBS.size(); i++){
+//			keywordsMapping.put(orignialSBS.get(i), 1);
+//		}
 		// Put nodes containing keywords in the queue
 		for (int i = 0; i < keywords.size(); i++) {
 			if (invertedIndexAPIName.containsKey(keywords.get(i))) {
@@ -320,7 +321,15 @@ public class NormalQuery {
 
 			SteinerTree firstOrder = subTreeQueue.remove();
 			SteinerTree testRemove = numberOfNodesInfo.remove(firstOrder);
-			// invertedRootSteinerTree.get(firstOrder.getRoot()).remove(firstOrder);
+			
+			if (removedSubTreeQueue.containsKey(firstOrder)) {
+				if (removedSubTreeQueue.get(firstOrder).size() == 0) {
+					removedSubTreeQueue.remove(firstOrder);
+				} else if (removedSubTreeQueue.get(firstOrder).containsKey(firstOrder.getNumberOfNodes())) {
+					removedSubTreeQueue.get(firstOrder).remove(firstOrder.getNumberOfNodes());
+					continue;
+				}
+			}
 
 			// Check if the current tree includes all the keywords then return
 			// the result
@@ -329,16 +338,19 @@ public class NormalQuery {
 				SteinerTree firstResult = resultQueue.peek();
 				if (firstOrder.getNumberOfNodes() >= firstResult.getNumberOfNodes()) {
 					long endTime = System.currentTimeMillis();
-					System.out.println("The root of the result tree: " + firstResult.getRoot().ID + "-"
-							+ firstResult.getRoot().kw);
-					System.out.println("The nodes of the tree: ");
-					for (Node n : firstResult.getNodes().keySet()) {
-						System.out.println(firstResult.getNodes().get(n).ID + "-" + firstResult.getNodes().get(n).kw);
-					}
+//					System.out.println("The root of the result tree: " + firstResult.getRoot().ID + "-"
+//							+ firstResult.getRoot().kw);
+//					System.out.println("The nodes of the tree: ");
+//					for (Node n : firstResult.getNodes().keySet()) {
+//						System.out.println(firstResult.getNodes().get(n).ID + "-" + firstResult.getNodes().get(n).kw);
+//					}
 					this.timeConsumptionSuccessfulKS3Normal = endTime - startTime;
 					this.numberOfNodes = firstResult.getNumberOfNodes();
 
-					System.out.println("The total computation time: " + (endTime - startTime));
+//					System.out.println("The total computation time: " + (endTime - startTime));
+//					if (this.numberOfNodes != testNumberOfNodes) {
+//						System.out.println("One of the result is wrong");
+//					}
 					return true;
 				}
 
@@ -358,8 +370,8 @@ public class NormalQuery {
 						firstOrder.getNumberOfNodes());
 
 				if (intermediateTree.growTree(adjacentNodes.get(i), keywordsMapping)) {
-					if ((intermediateTree.getNumberOfNodes()
-							+ (keywords.size() - intermediateTree.getKeywords().size())) <= 2 * keywords.size()) {
+//					if ((intermediateTree.getNumberOfNodes()
+//							+ (keywords.size() - intermediateTree.getKeywords().size())) <= 2 * keywords.size()) {
 						if (numberOfNodesInfo.containsKey(intermediateTree)) {
 							SteinerTree test = new SteinerTree(numberOfNodesInfo.get(intermediateTree).getRoot(),
 									numberOfNodesInfo.get(intermediateTree).getNodes(),
@@ -368,7 +380,13 @@ public class NormalQuery {
 
 							if (intermediateTree.getNumberOfNodes() < numberOfNodesInfo.get(intermediateTree)
 									.getNumberOfNodes()) {
-								subTreeQueue.remove(test);
+								if (removedSubTreeQueue.containsKey(test)) {
+									removedSubTreeQueue.get(test).put(test.getNumberOfNodes(), test);
+								} else {
+									HashMap<Integer, SteinerTree> numberOfNodesMap = new HashMap<Integer, SteinerTree>();
+									numberOfNodesMap.put(test.getNumberOfNodes(), test);
+									removedSubTreeQueue.put(test, numberOfNodesMap);
+								}
 								subTreeQueue.add(intermediateTree);
 
 								numberOfNodesInfo.put(intermediateTree, intermediateTree);
@@ -398,14 +416,16 @@ public class NormalQuery {
 							resultQueue.add(intermediateTree);
 						}
 					}
-				}
+//				}
 			}
 
 			// Merge Tree
 			if (invertedRootSteinerTree.containsKey(firstOrder.getRoot())) {
 				ArrayList<SteinerTree> test = new ArrayList<SteinerTree>();
 				test = invertedRootSteinerTree.get(firstOrder.getRoot());
+
 				int testSize = test.size();
+				
 				for (int i = 0; i < testSize; i++) {
 					if (test.get(i).equals(firstOrder)) {
 						test.remove(i);
@@ -441,19 +461,34 @@ public class NormalQuery {
 
 					if (!intermediateTreeMerge.equals(mergedTree)) {
 						if (intermediateTreeMerge.mergeTree(mergedTree)) {
-							if ((intermediateTreeMerge.getNumberOfNodes()
-									+ (keywords.size() - intermediateTreeMerge.getKeywords().size())) <= 2
-											* keywords.size()) {
+//							if ((intermediateTreeMerge.getNumberOfNodes()
+//									+ (keywords.size() - intermediateTreeMerge.getKeywords().size())) <= 2
+//											* keywords.size()) {
 								if (numberOfNodesInfo.containsKey(intermediateTreeMerge)) {
 									if (intermediateTreeMerge.getNumberOfNodes() < numberOfNodesInfo
 											.get(intermediateTreeMerge).getNumberOfNodes()) {
-										subTreeQueue.remove(intermediateTreeMerge);
+										
+										if (removedSubTreeQueue.containsKey(intermediateTreeMerge)) {
+											removedSubTreeQueue.get(intermediateTreeMerge).put(
+													intermediateTreeMerge.getNumberOfNodes(), intermediateTreeMerge);
+										} else {
+											HashMap<Integer, SteinerTree> numberOfNodesMap = new HashMap<Integer, SteinerTree>();
+											numberOfNodesMap.put(intermediateTreeMerge.getNumberOfNodes(),
+													intermediateTreeMerge);
+											removedSubTreeQueue.put(intermediateTreeMerge, numberOfNodesMap);
+										}
+										
 										subTreeQueue.add(intermediateTreeMerge);
 
 										numberOfNodesInfo.put(intermediateTreeMerge, intermediateTreeMerge);
 
+										long startBlock = System.currentTimeMillis();
 										invertedRootSteinerTree.get(firstOrder.getRoot())
 												.remove(numberOfNodesInfo.get(intermediateTreeMerge));
+										long endBlock = System.currentTimeMillis();
+										if((endBlock - startBlock) > 100){
+											System.out.println("Computation time for the merge process block code is: " + (endBlock - startBlock));	
+										}
 										invertedRootSteinerTree.get(firstOrder.getRoot()).add(intermediateTreeMerge);
 										i--;
 										testSize--;
@@ -477,7 +512,7 @@ public class NormalQuery {
 							}
 						}
 					}
-				}
+//				}
 			}
 		}
 		return false;

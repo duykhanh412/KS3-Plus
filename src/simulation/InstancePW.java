@@ -38,7 +38,8 @@ public class InstancePW {
 		this.setting.diffCoeff = diffCoeff;
 
 		this.dg = dg;
-
+		System.out.println("The number of nodes: " + this.dg.edgeIndex.size());
+		System.out.println("The number of edges: " + this.dg.nodeIndex.size());
 		// StdOut.println(dg);
 		// dg.printNodeKeywords();
 		// dg.printNodeIndex();
@@ -80,7 +81,7 @@ public class InstancePW {
 		ArrayList<String> keywords = this.q.keywords;
 		// if (this.q.numKeywordsInMashup >= 2) {
 		NormalQuery nq = new NormalQuery();
-		if (nq.normalQueryPW(keywords, this.dg.invertedIndex, this.dg.adjIndex)) {
+		if (nq.normalQueryPW(keywords, this.dg.invertedIndex, this.dg.adjIndex, this.dg.hm_mashups_apis.get(mashupID))) {
 			this.newResult.mashupID = mashupID;
 			this.newResult.numKeywordsInMashup = this.q.numKeywordsInMashup;
 			// if (this.q.numKeywordsInMashup == 10 &&
@@ -97,6 +98,7 @@ public class InstancePW {
 				this.newResult.newSolution = true;
 			} else {
 				this.newResult.newSolution = false;
+				System.out.println("The ID of the mashup is: " + mashupID);
 			}
 			dg.count++;
 		} else {

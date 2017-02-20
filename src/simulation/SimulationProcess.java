@@ -13,8 +13,8 @@ import elements.DataGraph;
 public class SimulationProcess {
 	public static void main(String[] args) {
 		SimulationProcess sp = new SimulationProcess();
-		sp.run();
-		// sp.runPW();
+		 sp.run();
+//		sp.runPW();
 	}
 
 	public void run() {
@@ -56,19 +56,19 @@ public class SimulationProcess {
 									// New Algorithm Result
 									setNewResult.averageResultsAll();
 									srlNew.add(setNewResult);
-									
+
 									String newFilePath = ExcelWriter.composeExcelFilePath("New_Results", "New");
 									ExcelWriter ewNew = new ExcelWriter(newFilePath);
 									ewNew.write(srlNew);
 								}
 							}
 						}
-						
+
 					}
 				}
 			}
 		}
-		
+
 		// Previous Algorithm Result
 		// String oldFilePath =
 		// ExcelWriter.composeExcelFilePath("Old_Results","Old");
@@ -76,7 +76,7 @@ public class SimulationProcess {
 		// ExcelWriter(oldFilePath.toString());
 		// ewOld.write(srlOld);
 		// New Algorithm Result
-		
+
 	}
 
 	public void runPW() { // run experiments on programmableweb dataset
@@ -90,7 +90,7 @@ public class SimulationProcess {
 		SetResult setNewResult = new SetResult(0, 0, 0, 0, 0, 0, 0);
 
 		InstancePW instancePW;
-		for (int M = 6001; M <= 6100; ++M) {
+		for (int M = 2000; M <= 6294; ++M) {
 			StdOut.println("********************************* Verifying " + "Mashup #" + M
 					+ " *********************************");
 			Setting setting = new Setting(0, 0, 0, 0, 0, "normal", 0, 0);
@@ -98,28 +98,29 @@ public class SimulationProcess {
 			instancePW = new InstancePW(dg, M, 0, 0, 0, 0, 0, "normal", 0, 0);
 			// instancePW.run();
 			// setResult.add(instancePW.result);
-			if (instancePW.q.numKeywordsInMashup >= 2) {
-				// New Algorithm
-				instancePW.runNewAlgorithm(M);
-				setNewResult.add(instancePW.newResult);
-
+			if (instancePW.q.numKeywordsInMashup >= 2 && instancePW.q.numKeywordsInMashup < 11) {
 				// Previous Algorithm
-				instancePW.runOldAlgorithm(M);
-				setOldResult.add(instancePW.oldResult);
+				 instancePW.runOldAlgorithm(M);
+				 setOldResult.add(instancePW.oldResult);
+
+				// New Algorithm
+//				instancePW.runNewAlgorithm(M);
+//				setNewResult.add(instancePW.newResult);
+
 			}
 			// Check Original SBS
 			// instancePW.checkOriginalSBS(M);
 			// setNewResult.add(instancePW.newResult);
 		}
 		// Save the results for the previous algorithm
-		setOldResult.averageResultsAll();
-		srlOld.add(setOldResult);
-		writeOldResultsPW(srlOld);
+		 setOldResult.averageResultsAll();
+		 srlOld.add(setOldResult);
+		 writeOldResultsPW(srlOld);
 
 		// Save the results for the new algorithm
-		setNewResult.averageResultsAll();
-		srlNew.add(setNewResult);
-		writeNewResultsPW(srlNew);
+//		setNewResult.averageResultsAll();
+//		srlNew.add(setNewResult);
+//		writeNewResultsPW(srlNew);
 		// displayGraph(dg);
 	}
 
